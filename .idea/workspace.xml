@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="507b6fb1-d4ca-4b5e-8525-80ba6e97cb06" name="Default Changelist" comment="added: start game Tanks">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index1.html" beforeDir="false" afterPath="$PROJECT_DIR$/index1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +47,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1610108864811</updated>
-      <workItem from="1610108866032" duration="5937000" />
+      <workItem from="1610108866032" duration="8592000" />
     </task>
     <task id="LOCAL-00001" summary="init: start game Tanks">
       <created>1610111051476</created>
@@ -61,7 +63,21 @@
       <option name="project" value="LOCAL" />
       <updated>1610111257282</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat: add package.json">
+      <created>1610115433961</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1610115433961</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added: start game Tanks">
+      <created>1610115740637</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1610115740637</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -69,6 +85,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init: start game Tanks" />
-    <option name="LAST_COMMIT_MESSAGE" value="init: start game Tanks" />
+    <MESSAGE value="feat: add package.json" />
+    <MESSAGE value="added: start game Tanks" />
+    <option name="LAST_COMMIT_MESSAGE" value="added: start game Tanks" />
   </component>
 </project>

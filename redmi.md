@@ -1,0 +1,1 @@
+**start babel** -  npm babel src --out-dir build 
