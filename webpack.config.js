@@ -6,10 +6,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: "development",
-  entry: "./src/App.js",
+  entry: "./src/main.js",
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js'
+    filename: 'bundle.js'
+  },
+  resolve: {
+    extensions: ['.jsx', '.js'],
   },
   devServer: {
     open: true,
@@ -58,13 +61,18 @@ module.exports = {
 
       // loading style
       {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        test: /(\.css|\.pcss)$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true
+            },
+          },
+          'postcss-loader'
+        ],
       },
-      {
-        test: /\.(s[ca]ss)$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
-      }
     ]
   },
   plugins: [
@@ -73,9 +81,9 @@ module.exports = {
       template: "./public/index.html",
       filename: 'index.html'
     }),
-    new MiniCssExtractPlugin({
-      filename: '[name]-[hash:8].css'
-    }),
+    // new MiniCssExtractPlugin({
+    //   filename: '[name]-[hash:8].css'
+    // }),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
