@@ -1,10 +1,29 @@
-.name {
-  display: flex;
-  color: red;
-
-
-  &:hover {
-    color: green;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
+html,
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.main {
+  max-width: 1300px;
+  width: 100vw;
+  height: 100vh;
+  padding: 50px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+
+  background: #848176;
+}
