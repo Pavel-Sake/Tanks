@@ -2,6 +2,9 @@ import React, {useRef, useEffect, useState} from 'react';
 
 import styles from './gamePlaceCanvas.pcss';
 
+import position from './../../../data';
+
+
 let cadr = 1;
 let positionTankX = 600
 let positionTankY = 800;
@@ -30,13 +33,20 @@ const bordersTank = {
 }
 
 
+
+
+
 const GamePlaceCanvas = () => {
+
+
   const [initialState, setInitialState] = useState(1);
   const [ctx, setCtx] = useState(null);
+
 
   const canvasRef = useRef();
 
   useEffect(() => {
+
     setCtx(canvasRef.current.getContext('2d'));
     bordersCanvas.borderEndX = canvasRef.current.width;
     bordersCanvas.borderEndY = canvasRef.current.height
@@ -49,10 +59,14 @@ const GamePlaceCanvas = () => {
       requestAnimationFrame(go);
     }
 
+
+
     function changeKeyPressTrue(event) {
       event.preventDefault()
 
+
       keyPress = event.code;
+      console.log(keyPress);
     }
 
     function changeKeyPressFalse(event) {
@@ -67,6 +81,7 @@ const GamePlaceCanvas = () => {
 
   useEffect(() => {
     cadr++;
+
   });
 
   const {tankWidht, tankHeight} = sizeTank;
@@ -109,6 +124,7 @@ const GamePlaceCanvas = () => {
 
     ctx.putImageData(imgData, positionTankX, positionTankY);
   }
+
 
   function animation(ctx) {
     ctx.fillStyle = "black";
