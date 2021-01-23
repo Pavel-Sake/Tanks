@@ -1,4 +1,8 @@
 
+import {bordersCanvas} from './components/game-place-canvas/gamePlaceCanvas'
+
+
+
 let positionTankX = 600;
 let positionTankY = 800;
 
