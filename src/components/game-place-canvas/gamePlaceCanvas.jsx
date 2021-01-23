@@ -7,8 +7,6 @@ import { shooting, countShoots } from './../../shooting';
 
 
 
-let curentPositionTankY = 800;
-
 let keyPress = null;
 
 const bordersCanvas = {
@@ -18,6 +16,9 @@ const bordersCanvas = {
   borderEndX: null
 };
 
+
+
+export {bordersCanvas}
 
 
 const GamePlaceCanvas = () => {
@@ -71,7 +72,6 @@ const GamePlaceCanvas = () => {
     event.preventDefault()
     keyPress = null;
   }
-
 
 
   return (

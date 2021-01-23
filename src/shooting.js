@@ -2,17 +2,31 @@
 
 import {positionGunX, positionGunY, currentDirectionTank, bulletSize} from './moveTank';
 
+import {bordersCanvas} from './components/game-place-canvas/gamePlaceCanvas'
+
+console.log('bordersCanvas', bordersCanvas)
+
 
 const countShoots = [];
 const COOLDOWN_SHOOTING = 1000;
-const SPEED_BULLET = 3
+const SPEED_BULLET = 3;
 
-const  {bulletWidth, bulletHeight } = bulletSize
+const  { bulletWidth, bulletHeight } = bulletSize;
+
+
 
 function drawShooting () {
   let startPositionGunX = positionGunX;
   let strtPositionGunY = positionGunY;
   let prevDirectionTank = currentDirectionTank;
+
+  const bordersBullet = {
+    borderLeft: 0,
+    borderRight: 0,
+    borderUp: 0,
+    borderDown: 0
+  };
+  let { borderLeft, borderRight, borderUp, borderDown } = bordersBullet
 
 
   return function (ctx) {
@@ -24,15 +38,35 @@ function drawShooting () {
     switch (prevDirectionTank) {
       case "ArrowUp":
         strtPositionGunY-= SPEED_BULLET;
+        borderUp = strtPositionGunY;
+
+        if (borderUp < 300) {
+          countShoots.shift()
+        }
         break;
       case "ArrowDown":
         strtPositionGunY+= SPEED_BULLET;
+        borderDown = strtPositionGunY + bulletWidth;
+
+        if (borderDown > 800) {
+          countShoots.shift()
+        }
         break;
       case "ArrowRight":
         startPositionGunX+= SPEED_BULLET;
+        borderRight = startPositionGunX + bulletWidth;
+
+        if (borderRight > 1000) {
+          countShoots.shift()
+        }
         break;
       case "ArrowLeft":
         startPositionGunX-= SPEED_BULLET;
+        borderLeft = startPositionGunX;
+
+        if (borderLeft < 30) {
+          countShoots.shift()
+        }
         break;
     }
 
