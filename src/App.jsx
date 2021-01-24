@@ -1,9 +1,58 @@
 import React from "react";
-import './style.pcss';
+import cn from 'classnames';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
+import Home from './pages/home/home';
+import About from './pages/about/about';
+import NoFound from './pages/noFound/noFound'
+
+import Header from './components/header/header';
+import Footer from './components/footer/footer';
+import Tank from './components/tank';
+
+import styles from './style.pcss';
+
 
 const App = () => {
   return (
-    <button className="name">hello</button>
+    <div className={cn(styles.main)}>
+      <Router>
+        <>
+          <Header/>
+          <Switch>
+            <Route
+              path={"/"}
+              component={Home}
+              exact
+            />
+
+            <Route
+              path={"/about"}
+              exact
+              component={About}
+            />
+
+            <Route
+              path={"/about/:id"}
+              component={Tank}
+            />
+
+            <Route
+              path={"/settings"}
+              render={() => <h2>settings</h2>}
+            />
+
+            <Route
+              path={"*"}
+              component={NoFound}
+            />
+
+            <Home/>
+          </Switch>
+          <Footer/>
+        </>
+      </Router>
+    </div>
   )
 }
 

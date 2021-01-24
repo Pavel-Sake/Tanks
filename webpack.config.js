@@ -30,7 +30,6 @@ module.exports = {
         ]
       },
 
-
       // loading images
       {
         test: /\.(ico|gif|png|jpg|jpeg|svg)$/,
@@ -61,7 +60,7 @@ module.exports = {
 
       // loading style
       {
-        test: /(\.css|\.pcss)$/,
+        test: /\.(pcss|css)$/,
         use: [
           'style-loader',
           {
@@ -92,7 +91,8 @@ module.exports = {
           to: path.resolve(__dirname, 'dist')
         },
       ]
-    })
+    }),
+
 
   ]
 }
