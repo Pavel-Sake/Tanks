@@ -2,13 +2,13 @@ import React from "react";
 import cn from 'classnames';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
-import Home from './pages/home/home';
-import About from './pages/about/about';
-import NoFound from './pages/noFound/noFound';
+import Home from './pages/home';
+import About from './pages/about';
+import NoFound from './pages/noFound';
 import Game from './pages/game';
 
-import Header from './components/header/header';
-import Footer from './components/footer/footer';
+import Header from './components/header';
+import Footer from './components/footer';
 import Tank from './components/tank';
 
 import styles from './style.pcss';

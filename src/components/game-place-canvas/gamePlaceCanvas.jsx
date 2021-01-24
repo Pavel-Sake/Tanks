@@ -2,7 +2,6 @@ import React, {useRef, useEffect, useState} from 'react';
 
 import styles from './gamePlaceCanvas.pcss';
 
-
 let cadr = 1;
 let positionTankX = 600
 let positionTankY = 800;
@@ -50,7 +49,6 @@ const GamePlaceCanvas = () => {
       requestAnimationFrame(go);
     }
 
-
     function changeKeyPressTrue(event) {
       event.preventDefault()
 
@@ -62,7 +60,6 @@ const GamePlaceCanvas = () => {
       keyPress = null;
     }
 
-
     document.addEventListener('keydown', changeKeyPressTrue);
     document.addEventListener('keyup', changeKeyPressFalse);
     requestAnimationFrame(go);
@@ -70,7 +67,6 @@ const GamePlaceCanvas = () => {
 
   useEffect(() => {
     cadr++;
-
   });
 
   const {tankWidht, tankHeight} = sizeTank;
@@ -113,7 +109,6 @@ const GamePlaceCanvas = () => {
 
     ctx.putImageData(imgData, positionTankX, positionTankY);
   }
-
 
   function animation(ctx) {
     ctx.fillStyle = "black";
