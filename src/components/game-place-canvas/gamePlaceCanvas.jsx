@@ -62,6 +62,7 @@ const GamePlaceCanvas = () => {
       keyPress = null;
     }
 
+
     document.addEventListener('keydown', changeKeyPressTrue);
     document.addEventListener('keyup', changeKeyPressFalse);
     requestAnimationFrame(go);
