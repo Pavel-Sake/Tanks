@@ -4,9 +4,9 @@ import GamePlaceCanvas from './../../components/game-place-canvas'
 
 const Game = () => {
   return (
-    <duv>
+    <div>
       <GamePlaceCanvas/>
-    </duv>
+    </div>
   )
 }
 

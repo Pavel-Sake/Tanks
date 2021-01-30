@@ -18,7 +18,7 @@ const bordersCanvas = {
 
 
 
-export {bordersCanvas}
+// export {bordersCanvas}
 
 
 const GamePlaceCanvas = () => {
@@ -84,6 +84,6 @@ const GamePlaceCanvas = () => {
   )
 }
 
-export {GamePlaceCanvas}
+export default GamePlaceCanvas
 
 
