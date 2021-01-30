@@ -1,5 +1,5 @@
 
-import {bordersCanvas} from './components/game-place-canvas/gamePlaceCanvas'
+// import {bordersCanvas} from './components/game-place-canvas/gamePlaceCanvas'
 
 
 
@@ -99,6 +99,6 @@ function moveTank(ctx, keyPress) {
   }
 
   ctx.putImageData(imgData, positionTankX, positionTankY);
-};
+}
 
 export {moveTank, positionGunX, positionGunY, currentDirectionTank, bulletSize}

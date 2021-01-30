@@ -2,9 +2,7 @@
 
 import {positionGunX, positionGunY, currentDirectionTank, bulletSize} from './moveTank';
 
-import {bordersCanvas} from './components/game-place-canvas/gamePlaceCanvas'
 
-console.log('bordersCanvas', bordersCanvas)
 
 
 const countShoots = [];
@@ -40,7 +38,7 @@ function drawShooting () {
         strtPositionGunY-= SPEED_BULLET;
         borderUp = strtPositionGunY;
 
-        if (borderUp < 300) {
+        if (borderUp < 0) {
           countShoots.shift()
         }
         break;
@@ -48,7 +46,7 @@ function drawShooting () {
         strtPositionGunY+= SPEED_BULLET;
         borderDown = strtPositionGunY + bulletWidth;
 
-        if (borderDown > 800) {
+        if (borderDown > 900) {
           countShoots.shift()
         }
         break;
@@ -56,7 +54,7 @@ function drawShooting () {
         startPositionGunX+= SPEED_BULLET;
         borderRight = startPositionGunX + bulletWidth;
 
-        if (borderRight > 1000) {
+        if (borderRight > 1200) {
           countShoots.shift()
         }
         break;
@@ -64,7 +62,7 @@ function drawShooting () {
         startPositionGunX-= SPEED_BULLET;
         borderLeft = startPositionGunX;
 
-        if (borderLeft < 30) {
+        if (borderLeft < 0) {
           countShoots.shift()
         }
         break;
