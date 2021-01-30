@@ -1,8 +1,3 @@
-
-// import {bordersCanvas} from './components/game-place-canvas/gamePlaceCanvas'
-
-
-
 let positionTankX = 600;
 let positionTankY = 800;
 
@@ -36,8 +31,7 @@ const {bulletWidth, bulletHeight} = bulletSize
 let currentDirectionTank = 'ArrowUp';
 
 
-
-function moveTank(ctx, keyPress) {
+function moveTank(ctx, keyPress, bordersCanvas) {
 
   ctx.fillStyle = "black";
   ctx.fillRect(positionTankX, positionTankY, tankWidht, tankHeight);
@@ -47,9 +41,11 @@ function moveTank(ctx, keyPress) {
 
   const imgData = ctx.getImageData(positionTankX, positionTankY, tankWidht, tankHeight);
 
+  const {borderSatrtY, borderEndY, borderSatrtX, borderEndX} = bordersCanvas;
+
   switch (keyPress) {
     case 'ArrowUp':
-      if (bordersTank.borderUp !== 0) {
+      if (bordersTank.borderUp !== borderSatrtY) {
         positionTankY--
         bordersTank.borderUp--
         bordersTank.borderDown--;
@@ -61,7 +57,7 @@ function moveTank(ctx, keyPress) {
       }
       break;
     case 'ArrowDown':
-      if (bordersTank.borderDown !== 900) {
+      if (bordersTank.borderDown !== borderEndY) {
         positionTankY++;
         bordersTank.borderUp++
         bordersTank.borderDown++;
@@ -73,7 +69,7 @@ function moveTank(ctx, keyPress) {
       }
       break;
     case 'ArrowRight':
-      if (bordersTank.borderRight !== 1200) {
+      if (bordersTank.borderRight !== borderEndX) {
         positionTankX++;
         bordersTank.borderRight++
         bordersTank.borderLeft++;
@@ -85,7 +81,7 @@ function moveTank(ctx, keyPress) {
       }
       break;
     case 'ArrowLeft':
-      if (bordersTank.borderLeft !== 0) {
+      if (bordersTank.borderLeft !== borderSatrtX) {
         positionTankX--;
         bordersTank.borderLeft--;
         bordersTank.borderRight--;
