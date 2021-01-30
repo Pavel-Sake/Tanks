@@ -6,23 +6,17 @@ import { moveTank } from './../../moveTank';
 import { shooting, countShoots } from './../../shooting';
 
 
-
 let keyPress = null;
 
 const bordersCanvas = {
   borderSatrtX: 0,
   borderEndX: null,
   borderSatrtY: 0,
-  borderEndX: null
+  borderEndY: null
 };
 
 
-
-// export {bordersCanvas}
-
-
 const GamePlaceCanvas = () => {
-
   const canvasRef = useRef();
 
   useEffect(() => {
@@ -33,15 +27,14 @@ const GamePlaceCanvas = () => {
     bordersCanvas.borderEndY = canvasRef.current.height;
 
 
-
     function go() {
       ctx.clearRect(0, 0, 1200, 900);
 
-      moveTank(ctx, keyPress)
+      moveTank(ctx, keyPress, bordersCanvas)
 
       if (countShoots.length !== 0) {
         countShoots.forEach((item) => {
-          item(ctx)
+          item(ctx, bordersCanvas)
         })
       }
 

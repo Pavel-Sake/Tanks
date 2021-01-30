@@ -1,8 +1,4 @@
-
-
 import {positionGunX, positionGunY, currentDirectionTank, bulletSize} from './moveTank';
-
-
 
 
 const countShoots = [];
@@ -10,7 +6,6 @@ const COOLDOWN_SHOOTING = 1000;
 const SPEED_BULLET = 3;
 
 const  { bulletWidth, bulletHeight } = bulletSize;
-
 
 
 function drawShooting () {
@@ -26,19 +21,19 @@ function drawShooting () {
   };
   let { borderLeft, borderRight, borderUp, borderDown } = bordersBullet
 
-
-  return function (ctx) {
-
+  return function (ctx, bordersCanvas) {
     ctx.fillStyle = "red";
     ctx.fillRect(startPositionGunX, strtPositionGunY, bulletWidth, bulletHeight);
     const imgData = ctx.getImageData(startPositionGunX, strtPositionGunY, bulletWidth, bulletHeight);
+
+    const {borderSatrtY, borderEndY, borderSatrtX, borderEndX} = bordersCanvas;
 
     switch (prevDirectionTank) {
       case "ArrowUp":
         strtPositionGunY-= SPEED_BULLET;
         borderUp = strtPositionGunY;
 
-        if (borderUp < 0) {
+        if (borderUp < borderSatrtY) {
           countShoots.shift()
         }
         break;
@@ -46,7 +41,7 @@ function drawShooting () {
         strtPositionGunY+= SPEED_BULLET;
         borderDown = strtPositionGunY + bulletWidth;
 
-        if (borderDown > 900) {
+        if (borderDown > borderEndY) {
           countShoots.shift()
         }
         break;
@@ -54,7 +49,7 @@ function drawShooting () {
         startPositionGunX+= SPEED_BULLET;
         borderRight = startPositionGunX + bulletWidth;
 
-        if (borderRight > 1200) {
+        if (borderRight > borderEndX) {
           countShoots.shift()
         }
         break;
@@ -62,7 +57,7 @@ function drawShooting () {
         startPositionGunX-= SPEED_BULLET;
         borderLeft = startPositionGunX;
 
-        if (borderLeft < 0) {
+        if (borderLeft < borderSatrtX) {
           countShoots.shift()
         }
         break;
@@ -75,7 +70,7 @@ function drawShooting () {
 function debounce(drawShooting, ms ) {
   let isCooldown = false;
 
-  return function () {
+  return function (bordersCanvas) {
     if (isCooldown) return;
 
     countShoots.push(drawShooting());
