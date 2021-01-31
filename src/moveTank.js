@@ -2,31 +2,31 @@ let positionTankX = 600;
 let positionTankY = 800;
 
 const bulletSize = {
-  bulletWidth: 20,
-  bulletHeight: 20
+  width: 20,
+  height: 20
 }
 
 const sizeTank = {
-  tankWidht: 50,
-  tankHeight: 50
+  widht: 50,
+  height: 50
 }
 
-const shiftToTank = sizeTank.tankWidht; //50
-const shiftToBullet = bulletSize.bulletWidth; // 20
-const shiftToCenterTank = (sizeTank.tankWidht -  bulletSize.bulletWidth) / 2; // 15
+const STEP_TANK = 2;
+
+const shiftToTank = sizeTank.widht;
+const shiftToBullet = bulletSize.width;
+const shiftToCenterTank = (sizeTank.widht -  bulletSize.height) / 2;
 
 let positionGunX = positionTankX + shiftToCenterTank
 let positionGunY = positionTankY - shiftToBullet;
 
-const bordersTank = {
-  borderLeft: 600,
-  borderRight: 650,
-  borderUp: 800,
-  borderDown: 850
-};
 
-const {tankWidht, tankHeight} = sizeTank;
-const {bulletWidth, bulletHeight} = bulletSize
+const bordersTank = {
+  left: positionTankX,
+  right: positionTankX + sizeTank.widht,
+  up: positionTankY,
+  down: positionTankY + sizeTank.height
+};
 
 let currentDirectionTank = 'ArrowUp';
 
@@ -34,21 +34,19 @@ let currentDirectionTank = 'ArrowUp';
 function moveTank(ctx, keyPress, bordersCanvas) {
 
   ctx.fillStyle = "black";
-  ctx.fillRect(positionTankX, positionTankY, tankWidht, tankHeight);
+  ctx.fillRect(positionTankX, positionTankY, sizeTank.widht, sizeTank.height);
 
   ctx.fillStyle = "red";
-  ctx.fillRect(positionGunX, positionGunY, bulletWidth, bulletHeight);
-
-  const imgData = ctx.getImageData(positionTankX, positionTankY, tankWidht, tankHeight);
+  ctx.fillRect(positionGunX, positionGunY, bulletSize.width, bulletSize.width);
 
   const {borderSatrtY, borderEndY, borderSatrtX, borderEndX} = bordersCanvas;
 
   switch (keyPress) {
     case 'ArrowUp':
-      if (bordersTank.borderUp !== borderSatrtY) {
-        positionTankY--
-        bordersTank.borderUp--
-        bordersTank.borderDown--;
+      if (bordersTank.up !== borderSatrtY) {
+        positionTankY -= STEP_TANK;
+        bordersTank.up -= STEP_TANK;
+        bordersTank.down -= STEP_TANK;
 
         positionGunX = positionTankX + shiftToCenterTank
         positionGunY = positionTankY - shiftToBullet;
@@ -57,10 +55,10 @@ function moveTank(ctx, keyPress, bordersCanvas) {
       }
       break;
     case 'ArrowDown':
-      if (bordersTank.borderDown !== borderEndY) {
-        positionTankY++;
-        bordersTank.borderUp++
-        bordersTank.borderDown++;
+      if (bordersTank.down !== borderEndY) {
+        positionTankY += STEP_TANK;
+        bordersTank.up += STEP_TANK;
+        bordersTank.down += STEP_TANK;
 
         positionGunX = positionTankX + shiftToCenterTank;
         positionGunY = positionTankY + shiftToTank;
@@ -69,10 +67,10 @@ function moveTank(ctx, keyPress, bordersCanvas) {
       }
       break;
     case 'ArrowRight':
-      if (bordersTank.borderRight !== borderEndX) {
-        positionTankX++;
-        bordersTank.borderRight++
-        bordersTank.borderLeft++;
+      if (bordersTank.right !== borderEndX) {
+        positionTankX += STEP_TANK;
+        bordersTank.right += STEP_TANK;
+        bordersTank.left += STEP_TANK;
 
         positionGunX = positionTankX + shiftToTank;
         positionGunY = positionTankY + shiftToCenterTank;
@@ -81,10 +79,10 @@ function moveTank(ctx, keyPress, bordersCanvas) {
       }
       break;
     case 'ArrowLeft':
-      if (bordersTank.borderLeft !== borderSatrtX) {
-        positionTankX--;
-        bordersTank.borderLeft--;
-        bordersTank.borderRight--;
+      if (bordersTank.left !== borderSatrtX) {
+        positionTankX -= STEP_TANK;
+        bordersTank.left -= STEP_TANK;
+        bordersTank.right -= STEP_TANK;
 
         positionGunX = positionTankX - shiftToBullet;
         positionGunY = positionTankY + shiftToCenterTank;
@@ -93,8 +91,6 @@ function moveTank(ctx, keyPress, bordersCanvas) {
       }
       break;
   }
-
-  ctx.putImageData(imgData, positionTankX, positionTankY);
 }
 
 export {moveTank, positionGunX, positionGunY, currentDirectionTank, bulletSize}

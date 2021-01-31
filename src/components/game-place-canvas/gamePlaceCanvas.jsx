@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useRef, useEffect} from 'react';
 
 import styles from './gamePlaceCanvas.pcss';
 
@@ -17,18 +17,16 @@ const bordersCanvas = {
 
 
 const GamePlaceCanvas = () => {
-  const canvasRef = useRef();
+  const canvasRef = useRef(null);
 
   useEffect(() => {
-
     const ctx = canvasRef.current.getContext('2d')
-
     bordersCanvas.borderEndX = canvasRef.current.width;
     bordersCanvas.borderEndY = canvasRef.current.height;
 
 
     function go() {
-      ctx.clearRect(0, 0, 1200, 900);
+      ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 
       moveTank(ctx, keyPress, bordersCanvas)
 
@@ -46,34 +44,38 @@ const GamePlaceCanvas = () => {
 
 
   useEffect(() => {
-    document.addEventListener('keydown', changeKeyPressTrueAndShooting);
-    document.addEventListener('keyup', changeKeyPressFalse);
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keyup', handleKeyUp);
+    }
   }, []);
 
 
-  function changeKeyPressTrueAndShooting(event) {
+  function handleKeyDown(event) {
     event.preventDefault()
     keyPress = event.code;
-    // console.log(keyPress);
 
     if (keyPress === 'Space') {
       shooting();
     }
   }
 
-  function changeKeyPressFalse(event) {
+  function handleKeyUp(event) {
     event.preventDefault()
     keyPress = null;
   }
 
-
   return (
       <canvas
-          className={`${styles.canvas}`}
+          className={styles.canvas}
           ref={canvasRef}
           width="1200px"
           height="900px"
-      ></canvas>
+      >
+      </canvas>
   )
 }
 

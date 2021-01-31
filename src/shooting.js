@@ -3,9 +3,7 @@ import {positionGunX, positionGunY, currentDirectionTank, bulletSize} from './mo
 
 const countShoots = [];
 const COOLDOWN_SHOOTING = 1000;
-const SPEED_BULLET = 3;
-
-const  { bulletWidth, bulletHeight } = bulletSize;
+const STEP_BULLET = 3;
 
 
 function drawShooting () {
@@ -14,64 +12,62 @@ function drawShooting () {
   let prevDirectionTank = currentDirectionTank;
 
   const bordersBullet = {
-    borderLeft: 0,
-    borderRight: 0,
-    borderUp: 0,
-    borderDown: 0
+    left: 0,
+    right: 0,
+    up: 0,
+    down: 0
   };
-  let { borderLeft, borderRight, borderUp, borderDown } = bordersBullet
 
   return function (ctx, bordersCanvas) {
     ctx.fillStyle = "red";
-    ctx.fillRect(startPositionGunX, strtPositionGunY, bulletWidth, bulletHeight);
-    const imgData = ctx.getImageData(startPositionGunX, strtPositionGunY, bulletWidth, bulletHeight);
+    ctx.fillRect(startPositionGunX, strtPositionGunY, bulletSize.width, bulletSize.height);
 
     const {borderSatrtY, borderEndY, borderSatrtX, borderEndX} = bordersCanvas;
 
     switch (prevDirectionTank) {
       case "ArrowUp":
-        strtPositionGunY-= SPEED_BULLET;
-        borderUp = strtPositionGunY;
+        strtPositionGunY-= STEP_BULLET;
+        bordersBullet.up = strtPositionGunY;
 
-        if (borderUp < borderSatrtY) {
+        if (bordersBullet.up < borderSatrtY) {
           countShoots.shift()
         }
         break;
       case "ArrowDown":
-        strtPositionGunY+= SPEED_BULLET;
-        borderDown = strtPositionGunY + bulletWidth;
+        strtPositionGunY+= STEP_BULLET;
+        bordersBullet.down = strtPositionGunY + bulletSize.width;
 
-        if (borderDown > borderEndY) {
+        if (bordersBullet.down > borderEndY) {
           countShoots.shift()
         }
         break;
       case "ArrowRight":
-        startPositionGunX+= SPEED_BULLET;
-        borderRight = startPositionGunX + bulletWidth;
+        startPositionGunX+= STEP_BULLET;
+        bordersBullet.right = startPositionGunX + bulletSize.hidth;
 
-        if (borderRight > borderEndX) {
+        if (bordersBullet.right > borderEndX) {
           countShoots.shift()
         }
         break;
       case "ArrowLeft":
-        startPositionGunX-= SPEED_BULLET;
-        borderLeft = startPositionGunX;
+        startPositionGunX-= STEP_BULLET;
+        bordersBullet.left = startPositionGunX;
 
-        if (borderLeft < borderSatrtX) {
+        if (bordersBullet.left < borderSatrtX) {
           countShoots.shift()
         }
         break;
     }
-
-    ctx.putImageData(imgData, startPositionGunX, strtPositionGunY);
   }
 }
 
 function debounce(drawShooting, ms ) {
   let isCooldown = false;
 
-  return function (bordersCanvas) {
-    if (isCooldown) return;
+  return function () {
+    if (isCooldown) {
+      return
+    }
 
     countShoots.push(drawShooting());
 
