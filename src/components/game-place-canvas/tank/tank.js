@@ -25,6 +25,14 @@ class Tank {
     this.countShootsArr = []
   }
 
+  get dataPosition () {
+    return {
+      positionGunX: this.positionGunX,
+      positionGunY: this.positionGunY,
+      currentDirectionTank: this.currentDirectionTank
+    }
+  }
+
   move(keyPress) {
     const {borderSatrtY, borderEndY, borderSatrtX, borderEndX} = this.bordersCanvas;
 

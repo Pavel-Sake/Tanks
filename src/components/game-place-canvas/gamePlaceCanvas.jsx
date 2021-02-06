@@ -4,6 +4,11 @@ import styles from './gamePlaceCanvas.pcss';
 
 
 import Tank from './tank/tank';
+import Bullet from './bullet/bullet';
+
+import shoot from './debounce/debounce'
+
+
 
 let positionTankX = 600;
 let positionTankY = 800;
@@ -44,6 +49,10 @@ const bordersCanvas = {
   borderEndY: null
 };
 
+const countActiveBullet = []
+
+let isCooldownShoot = false
+
 
 const GamePlaceCanvas = () => {
   const canvasRef = useRef(null);
@@ -58,7 +67,6 @@ const GamePlaceCanvas = () => {
       sizeTank, bulletSize, bordersCanvas, bordersTank, TANK_STEP,
       shiftToTank, shiftToBullet, shiftToCenterTank
     );
-    const shoot = tank.debounce(tank.drawShooting, 800)
 
 
     function go() {
@@ -66,9 +74,9 @@ const GamePlaceCanvas = () => {
 
       tank.move(keyPress);
 
-      if (tank.countShoots.length !== 0) {
-        tank.countShoots.forEach((item) => {
-          item()
+      if (countActiveBullet.length !== 0) {
+        countActiveBullet.forEach((item, idx) => {
+          item.move(countActiveBullet, idx)
         })
       }
 
@@ -76,7 +84,6 @@ const GamePlaceCanvas = () => {
     }
 
     requestAnimationFrame(go);
-
 
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
@@ -86,12 +93,15 @@ const GamePlaceCanvas = () => {
       document.removeEventListener('keyup', handleKeyUp);
     }
 
+
     function handleKeyDown(event) {
       event.preventDefault()
       keyPress = event.code;
 
       if (keyPress === 'Space') {
-        shoot()
+        const bullet = new Bullet(ctx, BULLET_STEP, tank.dataPosition, bordersCanvas, bulletSize)
+
+        shoot(bullet, countActiveBullet, 800)
       }
     }
 
@@ -101,6 +111,7 @@ const GamePlaceCanvas = () => {
     }
 
   }, []);
+
 
 
   return (
@@ -113,6 +124,7 @@ const GamePlaceCanvas = () => {
     </canvas>
   )
 }
+
 
 export default GamePlaceCanvas
 
