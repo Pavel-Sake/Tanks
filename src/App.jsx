@@ -13,7 +13,6 @@ import Tank from './components/tank';
 
 import styles from './style.pcss';
 
-
 const App = () => {
   return (
     <div className={cn(styles.main)}>

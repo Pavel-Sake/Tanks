@@ -1,17 +1,44 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useRef, useEffect} from 'react';
 
 import styles from './gamePlaceCanvas.pcss';
 
-let cadr = 1;
-let positionTankX = 600
+
+import Tank from './tank/tank';
+import Bullet from './bullet/bullet';
+
+import shoot from './debounce/debounce'
+
+
+
+let positionTankX = 600;
 let positionTankY = 800;
 
 const sizeTank = {
-  tankWidht: 50,
-  tankHeight: 50
+  widht: 50,
+  height: 50
 }
 
-let curentPositionTankY = 800;
+const bulletSize = {
+  width: 20,
+  height: 20
+}
+
+const bordersTank = {
+  left: positionTankX,
+  right: positionTankX + sizeTank.widht,
+  up: positionTankY,
+  down: positionTankY + sizeTank.height
+}
+
+const shiftToTank = sizeTank.widht;
+const shiftToBullet = bulletSize.width;
+const shiftToCenterTank = (sizeTank.widht -  bulletSize.height) / 2;
+
+let positionGunX = positionTankX + shiftToCenterTank
+let positionGunY = positionTankY - shiftToBullet;
+
+const TANK_STEP = 2;
+const BULLET_STEP = 3;
 
 let keyPress = null;
 
@@ -19,121 +46,86 @@ const bordersCanvas = {
   borderSatrtX: 0,
   borderEndX: null,
   borderSatrtY: 0,
-  borderEndX: null
+  borderEndY: null
 };
 
-const bordersTank = {
-  borderLeft: 600,
-  borderRight: 650,
-  borderUp: 800,
-  borderDown: 850
-}
+const countActiveBullet = []
+
+let isCooldownShoot = false
 
 
 const GamePlaceCanvas = () => {
-  const [initialState, setInitialState] = useState(1);
-  const [ctx, setCtx] = useState(null);
-
-  const canvasRef = useRef();
+  const canvasRef = useRef(null);
 
   useEffect(() => {
-    setCtx(canvasRef.current.getContext('2d'));
+    const ctx = canvasRef.current.getContext('2d')
     bordersCanvas.borderEndX = canvasRef.current.width;
-    bordersCanvas.borderEndY = canvasRef.current.height
+    bordersCanvas.borderEndY = canvasRef.current.height;
+
+    const tank = new Tank(
+      ctx, positionTankX, positionTankY, positionGunX, positionGunY,
+      sizeTank, bulletSize, bordersCanvas, bordersTank, TANK_STEP,
+      shiftToTank, shiftToBullet, shiftToCenterTank
+    );
+
 
     function go() {
-      setInitialState((state) => {
-        return state + 1
-      });
+      ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
+      tank.move(keyPress);
+
+      if (countActiveBullet.length !== 0) {
+        countActiveBullet.forEach((item, idx) => {
+          item.move(countActiveBullet, idx)
+        })
+      }
 
       requestAnimationFrame(go);
     }
 
-    function changeKeyPressTrue(event) {
-      event.preventDefault()
+    requestAnimationFrame(go);
 
-      keyPress = event.code;
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keyup', handleKeyUp);
     }
 
-    function changeKeyPressFalse(event) {
+
+    function handleKeyDown(event) {
+      event.preventDefault()
+      keyPress = event.code;
+
+      if (keyPress === 'Space') {
+        const bullet = new Bullet(ctx, BULLET_STEP, tank.dataPosition, bordersCanvas, bulletSize)
+
+        shoot(bullet, countActiveBullet, 800)
+      }
+    }
+
+    function handleKeyUp(event) {
       event.preventDefault()
       keyPress = null;
     }
 
-    document.addEventListener('keydown', changeKeyPressTrue);
-    document.addEventListener('keyup', changeKeyPressFalse);
-    requestAnimationFrame(go);
-  }, [])
+  }, []);
 
-  useEffect(() => {
-    cadr++;
-  });
 
-  const {tankWidht, tankHeight} = sizeTank;
-
-  function moveTank(ctx, keyPress) {
-
-    const imgData = ctx.getImageData(positionTankX, positionTankY, tankWidht, tankHeight);
-    ctx.clearRect(0, 0, 1200, 900);
-
-    switch (keyPress) {
-      case 'ArrowUp':
-        if (bordersTank.borderUp !== 0) {
-          positionTankY --
-          bordersTank.borderUp--
-          bordersTank.borderDown--
-        }
-        break;
-      case 'ArrowDown':
-        if (bordersTank.borderDown !== 900) {
-          positionTankY++;
-          bordersTank.borderUp++
-          bordersTank.borderDown++
-        }
-        break;
-      case 'ArrowRight':
-        if (bordersTank.borderRight !== 1200) {
-          positionTankX++;
-          bordersTank.borderRight++
-          bordersTank.borderLeft++
-        }
-        break;
-      case 'ArrowLeft':
-        if (bordersTank.borderLeft !== 0) {
-          positionTankX--;
-          bordersTank.borderLeft--
-          bordersTank.borderRight--
-        }
-        break;
-    }
-
-    ctx.putImageData(imgData, positionTankX, positionTankY);
-  }
-
-  function animation(ctx) {
-    ctx.fillStyle = "black";
-    ctx.fillRect(positionTankX, positionTankY, tankWidht, tankHeight);
-
-    if (keyPress) {
-      moveTank(ctx, keyPress);
-    }
-  }
-
-  if (ctx) {
-    animation(ctx)
-  }
 
   return (
-      <div>
-        <canvas
-            className={`${styles.canvas}`}
-            ref={canvasRef}
-            width="1200px"
-            height="900px"
-        ></canvas>
-        <p>cadr: {cadr}</p>
-      </div>
+    <canvas
+      className={styles.canvas}
+      ref={canvasRef}
+      width="1200px"
+      height="900px"
+    >
+    </canvas>
   )
 }
 
-export default GamePlaceCanvas;
+
+export default GamePlaceCanvas
+
+
