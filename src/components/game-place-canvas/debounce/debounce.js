@@ -1,11 +1,10 @@
-function debounce(ms) {
+function debounce() {
   let isCooldonw = false;
 
   return  (func, countActiveBullet, ms) => {
     if (isCooldonw) {
       return
     }
-
 
     countActiveBullet.push(func)
 

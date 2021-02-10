@@ -19,41 +19,42 @@ const App = () => {
       <Router>
         <>
           <Header/>
-          <Switch>
-            <Route
-              path={"/"}
-              component={Home}
-              exact
-            />
+          {/*<Switch>*/}
+          {/*  <Route*/}
+          {/*    path={"/"}*/}
+          {/*    component={Home}*/}
+          {/*    exact*/}
+          {/*  />*/}
 
-            <Route
-              path={"/about"}
-              exact
-              component={About}
-            />
+          {/*  <Route*/}
+          {/*    path={"/about"}*/}
+          {/*    exact*/}
+          {/*    component={About}*/}
+          {/*  />*/}
 
-            <Route
-              path={"/about/:id"}
-              component={Tank}
-            />
+          {/*  <Route*/}
+          {/*    path={"/about/:id"}*/}
+          {/*    component={Tank}*/}
+          {/*  />*/}
 
-            <Route
-              path={"/settings"}
-              render={() => <h2>settings</h2>}
-            />
+          {/*  <Route*/}
+          {/*    path={"/settings"}*/}
+          {/*    render={() => <h2>settings</h2>}*/}
+          {/*  />*/}
 
-            <Route
-              path={"/game"}
-              component={Game}
-            />
+          {/*  <Route*/}
+          {/*    path={"/game"}*/}
+          {/*    component={Game}*/}
+          {/*  />*/}
 
-            <Route
-              path={"*"}
-              component={NoFound}
-            />
+          {/*  <Route*/}
+          {/*    path={"*"}*/}
+          {/*    component={NoFound}*/}
+          {/*  />*/}
 
-            <Home/>
-          </Switch>
+          {/*  <Home/>*/}
+          {/*</Switch>*/}
+          <Game/>
           <Footer/>
         </>
       </Router>

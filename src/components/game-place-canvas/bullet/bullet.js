@@ -1,63 +1,67 @@
 class Bullet {
-  constructor(ctx, BULLET_STEP, dataPosition, bordersCanvas, bulletSize ) {
+  constructor(ctx, BULLET_STEP, dataPosition, bordersCanvas, bulletSize) {
     this.ctx = ctx;
     this.bordersCanvas = bordersCanvas;
     this.BULLET_STEP = BULLET_STEP;
-    this.dataPosition = dataPosition;
     this.positionGunX = dataPosition.positionGunX;
     this.positionGunY = dataPosition.positionGunY;
     this.prevDirectionTank = dataPosition.currentDirectionTank;
     this.bulletSize = bulletSize;
 
-    this.bordersBullet = {
-      up: null,
-      down: null,
-      right: null,
-      left: null
-    };
+    this.positionBullet = {
+      x1: this.positionGunX,
+      x2: this.positionGunX + this.bulletSize.width,
+      y1: this.positionGunY,
+      y2: this.positionGunY + this.bulletSize.height
+    }
   }
 
-
-  move (countActiveBullet, idx) {
+  move(countActiveBullet, idx, getIntersectedObjs, arrOtherObjs) {
     const BULLET_STEP = this.BULLET_STEP;
-    const { borderSatrtX, borderEndX, borderSatrtY, borderEndY } = this.bordersCanvas
+    const {borderStartX, borderEndX, borderStartY, borderEndY} = this.bordersCanvas
 
     this.ctx.fillStyle = "red";
-    this.ctx.fillRect(this.positionGunX,  this.positionGunY, 20, 20);
+    this.ctx.fillRect(this.positionBullet.x1, this.positionBullet.y1, this.bulletSize.width, this.bulletSize.height);
 
     switch (this.prevDirectionTank) {
       case "ArrowUp":
-        this.positionGunY -= BULLET_STEP;
-        this.bordersBullet.up = this.positionGunY;
+        this.positionBullet.y1 -= BULLET_STEP;
+        this.positionBullet.y2 -= BULLET_STEP;
 
-        if (this.bordersBullet.up < borderSatrtY) {
+        if (this.positionBullet.y1 < borderStartY) {
           countActiveBullet.splice(idx, 1)
         }
         break;
       case "ArrowDown":
-        this.positionGunY += BULLET_STEP;
-        this.bordersBullet.down = this.positionGunY + this.bulletSize.width;
+        this.positionBullet.y2 += BULLET_STEP;
+        this.positionBullet.y1 += BULLET_STEP;
 
-        if (this.bordersBullet.down > borderEndY) {
+        if (this.positionBullet.y2 > borderEndY) {
           countActiveBullet.splice(idx, 1)
         }
         break;
       case "ArrowRight":
-        this.positionGunX += BULLET_STEP;
-        this.bordersBullet.right = this.positionGunX + this.bulletSize.height;
+        this.positionBullet.x2 += BULLET_STEP;
+        this.positionBullet.x1 += BULLET_STEP;
 
-        if (this.bordersBullet.right > borderEndX) {
+        if (this.positionBullet.x2 > borderEndX) {
           countActiveBullet.splice(idx, 1)
         }
         break;
       case "ArrowLeft":
-        this.positionGunX -= BULLET_STEP;
-        this.bordersBullet.left = this.positionGunX;
+        this.positionBullet.x1 -= BULLET_STEP;
+        this.positionBullet.x2 -= BULLET_STEP;
 
-        if (this.bordersBullet.left < borderSatrtX) {
+        if (this.positionBullet.x1 < borderStartX) {
           countActiveBullet.splice(idx, 1)
         }
         break;
+    }
+
+    const intersectedObjs = getIntersectedObjs(this.positionBullet, arrOtherObjs)
+
+    if (intersectedObjs.length !== 0) {
+      countActiveBullet.splice(idx, 1)
     }
   }
 }
