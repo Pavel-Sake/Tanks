@@ -13,25 +13,25 @@ import getIntersectedObjs from './acrossingOfObject/acrossingOfObject';
 const sizeTank = {
   width: 50,
   height: 50,
-}
+};
 
 let positionTank = {
   x1: 600,
   x2: 600 + sizeTank.width,
   y1: 800,
   y2: 800 + sizeTank.height,
-}
+};
 
 const bulletSize = {
   width: 20,
   height: 20,
-}
+};
 
 const shiftToTank = sizeTank.width;
 const shiftToBullet = bulletSize.width;
 const shiftToCenterTank = (sizeTank.width - bulletSize.height) / 2;
 
-let positionGunX = positionTank.x1 + shiftToCenterTank
+let positionGunX = positionTank.x1 + shiftToCenterTank;
 let positionGunY = positionTank.y1 - shiftToBullet;
 
 const TANK_STEP = 5;
@@ -46,7 +46,7 @@ const bordersCanvas = {
   borderEndY: null
 };
 
-const activeBullets = []
+const activeBullets = [];
 
 //---------
 
@@ -56,17 +56,17 @@ const otherObj = {
   x2: 650,
   y1: 500,
   y2: 525
-}
+};
 
 const otherObj2 = {
   x1: 600,
   x2: 625,
   y1: 500,
   y2: 525
-}
+};
 
 
-const arrOtherObjs = [otherObj, otherObj2]
+const arrOtherObjs = [otherObj, otherObj2];
 
 
 const GamePlaceCanvas = () => {
@@ -121,11 +121,11 @@ const GamePlaceCanvas = () => {
       return () => {
         document.removeEventListener('keydown', handleKeyDown);
         document.removeEventListener('keyup', handleKeyUp);
-      }
+      };
 
 
       function handleKeyDown(event) {
-        event.preventDefault()
+        event.preventDefault();
         keyPress = event.code;
 
         if (keyPress === 'Space') {
@@ -135,12 +135,12 @@ const GamePlaceCanvas = () => {
       }
 
       function handleKeyUp(event) {
-        event.preventDefault()
+        event.preventDefault();
         keyPress = null;
       }
     },
     []
-  )
+  );
 
 
   return (
@@ -151,10 +151,10 @@ const GamePlaceCanvas = () => {
       height="900px"
     >
     </canvas>
-  )
-}
+  );
+};
 
 
-export default GamePlaceCanvas
+export default GamePlaceCanvas;
 
 

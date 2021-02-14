@@ -13,11 +13,11 @@ class Bullet {
       x2: this.positionGunX + this.bulletSize.width,
       y1: this.positionGunY,
       y2: this.positionGunY + this.bulletSize.height
-    }
+    };
   }
 
   move(index, removeBullet) {
-    const {borderStartX, borderEndX, borderStartY, borderEndY} = this.bordersCanvas
+    const {borderStartX, borderEndX, borderStartY, borderEndY} = this.bordersCanvas;
 
     this.ctx.fillStyle = "red";
     this.ctx.fillRect(this.positionBullet.x1, this.positionBullet.y1, this.bulletSize.width, this.bulletSize.height);

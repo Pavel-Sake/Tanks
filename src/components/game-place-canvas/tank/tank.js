@@ -6,7 +6,7 @@ class Tank {
   ) {
     this.ctx = ctx;
 
-    this.positionTank = positionTank
+    this.positionTank = positionTank;
     this.positionGunX = positionGunX;
     this.positionGunY = positionGunY;
 
@@ -35,7 +35,7 @@ class Tank {
       x2: this.positionTank.x2,
       y1: this.positionTank.y1,
       y2: this.positionTank.y2,
-    }
+    };
 
     switch (keyPress) {
       case 'ArrowUp':
@@ -48,7 +48,7 @@ class Tank {
             this.positionTank.y1 -= this.TANK_STEP;
             this.positionTank.y2 -= this.TANK_STEP;
           } else {
-            this.nextPosition.y1 = this.positionTank.y1
+            this.nextPosition.y1 = this.positionTank.y1;
           }
 
           this.positionGunX = this.positionTank.x1 + this.shiftToCenterTank;
