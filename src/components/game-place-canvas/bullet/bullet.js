@@ -1,8 +1,8 @@
 class Bullet {
-  constructor(ctx, BULLET_STEP, dataPosition, bordersCanvas, bulletSize) {
+  constructor(ctx, bulletStep, dataPosition, bordersCanvas, bulletSize) {
     this.ctx = ctx;
     this.bordersCanvas = bordersCanvas;
-    this.BULLET_STEP = BULLET_STEP;
+    this.bulletStep = bulletStep;
     this.positionGunX = dataPosition.positionGunX;
     this.positionGunY = dataPosition.positionGunY;
     this.prevDirectionTank = dataPosition.currentDirectionTank;
@@ -16,8 +16,7 @@ class Bullet {
     }
   }
 
-  move(countActiveBullet, idx, getIntersectedObjs, arrOtherObjs) {
-    const BULLET_STEP = this.BULLET_STEP;
+  move(index, removeBullet) {
     const {borderStartX, borderEndX, borderStartY, borderEndY} = this.bordersCanvas
 
     this.ctx.fillStyle = "red";
@@ -25,43 +24,37 @@ class Bullet {
 
     switch (this.prevDirectionTank) {
       case "ArrowUp":
-        this.positionBullet.y1 -= BULLET_STEP;
-        this.positionBullet.y2 -= BULLET_STEP;
+        this.positionBullet.y1 -= this.bulletStep;
+        this.positionBullet.y2 -= this.bulletStep;
 
         if (this.positionBullet.y1 < borderStartY) {
-          countActiveBullet.splice(idx, 1)
+          removeBullet(index);
         }
         break;
       case "ArrowDown":
-        this.positionBullet.y2 += BULLET_STEP;
-        this.positionBullet.y1 += BULLET_STEP;
+        this.positionBullet.y2 += this.bulletStep;
+        this.positionBullet.y1 += this.bulletStep;
 
         if (this.positionBullet.y2 > borderEndY) {
-          countActiveBullet.splice(idx, 1)
+          removeBullet(index);
         }
         break;
       case "ArrowRight":
-        this.positionBullet.x2 += BULLET_STEP;
-        this.positionBullet.x1 += BULLET_STEP;
+        this.positionBullet.x2 += this.bulletStep;
+        this.positionBullet.x1 += this.bulletStep;
 
         if (this.positionBullet.x2 > borderEndX) {
-          countActiveBullet.splice(idx, 1)
+          removeBullet(index);
         }
         break;
       case "ArrowLeft":
-        this.positionBullet.x1 -= BULLET_STEP;
-        this.positionBullet.x2 -= BULLET_STEP;
+        this.positionBullet.x1 -= this.bulletStep;
+        this.positionBullet.x2 -= this.bulletStep;
 
         if (this.positionBullet.x1 < borderStartX) {
-          countActiveBullet.splice(idx, 1)
+          removeBullet(index);
         }
         break;
-    }
-
-    const intersectedObjs = getIntersectedObjs(this.positionBullet, arrOtherObjs)
-
-    if (intersectedObjs.length !== 0) {
-      countActiveBullet.splice(idx, 1)
     }
   }
 }
