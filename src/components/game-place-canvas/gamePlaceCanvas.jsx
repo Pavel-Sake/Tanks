@@ -2,116 +2,145 @@ import React, {useRef, useEffect} from 'react';
 
 import styles from './gamePlaceCanvas.pcss';
 
-
 import Tank from './tank/tank';
+
 import Bullet from './bullet/bullet';
 
-import shoot from './debounce/debounce'
+import shoot from './debounce/debounce';
+import getIntersectedObjs from './acrossingOfObject/acrossingOfObject';
 
-
-
-let positionTankX = 600;
-let positionTankY = 800;
 
 const sizeTank = {
-  widht: 50,
-  height: 50
-}
+  width: 50,
+  height: 50,
+};
+
+let positionTank = {
+  x1: 600,
+  x2: 600 + sizeTank.width,
+  y1: 800,
+  y2: 800 + sizeTank.height,
+};
 
 const bulletSize = {
   width: 20,
-  height: 20
-}
+  height: 20,
+};
 
-const bordersTank = {
-  left: positionTankX,
-  right: positionTankX + sizeTank.widht,
-  up: positionTankY,
-  down: positionTankY + sizeTank.height
-}
-
-const shiftToTank = sizeTank.widht;
+const shiftToTank = sizeTank.width;
 const shiftToBullet = bulletSize.width;
-const shiftToCenterTank = (sizeTank.widht -  bulletSize.height) / 2;
+const shiftToCenterTank = (sizeTank.width - bulletSize.height) / 2;
 
-let positionGunX = positionTankX + shiftToCenterTank
-let positionGunY = positionTankY - shiftToBullet;
+let positionGunX = positionTank.x1 + shiftToCenterTank;
+let positionGunY = positionTank.y1 - shiftToBullet;
 
-const TANK_STEP = 2;
+const TANK_STEP = 5;
 const BULLET_STEP = 3;
 
 let keyPress = null;
 
 const bordersCanvas = {
-  borderSatrtX: 0,
+  borderStartX: 0,
   borderEndX: null,
-  borderSatrtY: 0,
+  borderStartY: 0,
   borderEndY: null
 };
 
-const countActiveBullet = []
+const activeBullets = [];
 
-let isCooldownShoot = false
+//---------
+
+
+const otherObj = {
+  x1: 625,
+  x2: 650,
+  y1: 500,
+  y2: 525
+};
+
+const otherObj2 = {
+  x1: 600,
+  x2: 625,
+  y1: 500,
+  y2: 525
+};
+
+
+const arrOtherObjs = [otherObj, otherObj2];
 
 
 const GamePlaceCanvas = () => {
   const canvasRef = useRef(null);
 
+  const removeBullet = (index) => {
+    activeBullets.splice(index, 1);
+  };
+
   useEffect(() => {
-    const ctx = canvasRef.current.getContext('2d')
-    bordersCanvas.borderEndX = canvasRef.current.width;
-    bordersCanvas.borderEndY = canvasRef.current.height;
+      const ctx = canvasRef.current.getContext('2d');
+      bordersCanvas.borderEndX = canvasRef.current.width;
+      bordersCanvas.borderEndY = canvasRef.current.height;
 
-    const tank = new Tank(
-      ctx, positionTankX, positionTankY, positionGunX, positionGunY,
-      sizeTank, bulletSize, bordersCanvas, bordersTank, TANK_STEP,
-      shiftToTank, shiftToBullet, shiftToCenterTank
-    );
+      const tank = new Tank(
+        ctx, positionTank, positionGunX, positionGunY,
+        sizeTank, bulletSize, bordersCanvas, TANK_STEP,
+        shiftToTank, shiftToBullet, shiftToCenterTank,
+      );
+
+      function go() {
+        ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
+        ctx.fillStyle = "green";
+        ctx.fillRect(otherObj.x1, otherObj.y1, 25, 25);
+
+        ctx.fillStyle = "blue";
+        ctx.fillRect(otherObj2.x1, otherObj2.y1, 25, 25);
+
+        tank.move(keyPress, getIntersectedObjs, arrOtherObjs);
 
 
-    function go() {
-      ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+        activeBullets.forEach((bullet, index) => {
+            bullet.move(index, removeBullet);
 
-      tank.move(keyPress);
+            const intersectedObjs = getIntersectedObjs(bullet.positionBullet, arrOtherObjs)
 
-      if (countActiveBullet.length !== 0) {
-        countActiveBullet.forEach((item, idx) => {
-          item.move(countActiveBullet, idx)
-        })
+            if (intersectedObjs.length !== 0) {
+              removeBullet(index)
+            }
+          }
+        );
+
+        requestAnimationFrame(go);
       }
 
       requestAnimationFrame(go);
-    }
 
-    requestAnimationFrame(go);
+      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('keyup', handleKeyUp);
 
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('keyup', handleKeyUp);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('keyup', handleKeyUp);
-    }
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+        document.removeEventListener('keyup', handleKeyUp);
+      };
 
 
-    function handleKeyDown(event) {
-      event.preventDefault()
-      keyPress = event.code;
+      function handleKeyDown(event) {
+        event.preventDefault();
+        keyPress = event.code;
 
-      if (keyPress === 'Space') {
-        const bullet = new Bullet(ctx, BULLET_STEP, tank.dataPosition, bordersCanvas, bulletSize)
-
-        shoot(bullet, countActiveBullet, 800)
+        if (keyPress === 'Space') {
+          const bullet = new Bullet(ctx, BULLET_STEP, tank.dataPosition, bordersCanvas, bulletSize)
+          shoot(bullet, activeBullets, 500);
+        }
       }
-    }
 
-    function handleKeyUp(event) {
-      event.preventDefault()
-      keyPress = null;
-    }
-
-  }, []);
-
+      function handleKeyUp(event) {
+        event.preventDefault();
+        keyPress = null;
+      }
+    },
+    []
+  );
 
 
   return (
@@ -122,10 +151,10 @@ const GamePlaceCanvas = () => {
       height="900px"
     >
     </canvas>
-  )
-}
+  );
+};
 
 
-export default GamePlaceCanvas
+export default GamePlaceCanvas;
 
 
