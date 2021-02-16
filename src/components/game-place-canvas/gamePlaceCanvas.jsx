@@ -1,13 +1,13 @@
 import React, {useRef, useEffect} from 'react';
 
 import styles from './gamePlaceCanvas.pcss';
-
 import Tank from './tank/tank';
-
 import Bullet from './bullet/bullet';
+
 
 import shoot from './debounce/debounce';
 import getIntersectedObjs from './acrossingOfObject/acrossingOfObject';
+import BulletExplosion from "../bulletExplosion/bulletExplosion";
 
 
 const sizeTank = {
@@ -47,9 +47,9 @@ const bordersCanvas = {
 };
 
 const activeBullets = [];
+const bulletExplosions = [];
 
 //---------
-
 
 const otherObj = {
   x1: 625,
@@ -72,8 +72,9 @@ const arrOtherObjs = [otherObj, otherObj2];
 const GamePlaceCanvas = () => {
   const canvasRef = useRef(null);
 
-  const removeBullet = (index) => {
+  const removeBulletAndCreateExplosion = (index, ctx, positionBulletX, positionBulletY) => {
     activeBullets.splice(index, 1);
+    bulletExplosions.push(new BulletExplosion(ctx, positionBulletX, positionBulletY));
   };
 
   useEffect(() => {
@@ -86,6 +87,7 @@ const GamePlaceCanvas = () => {
         sizeTank, bulletSize, bordersCanvas, TANK_STEP,
         shiftToTank, shiftToBullet, shiftToCenterTank,
       );
+
 
       function go() {
         ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -100,15 +102,20 @@ const GamePlaceCanvas = () => {
 
 
         activeBullets.forEach((bullet, index) => {
-            bullet.move(index, removeBullet);
+            bullet.move(index, removeBulletAndCreateExplosion);
 
-            const intersectedObjs = getIntersectedObjs(bullet.positionBullet, arrOtherObjs)
+            const intersectedObjs = getIntersectedObjs(bullet.positionBullet, arrOtherObjs);
 
             if (intersectedObjs.length !== 0) {
-              removeBullet(index)
+              removeBulletAndCreateExplosion(index, ctx, bullet.positionBullet.x1, bullet.positionBullet.y1);
             }
           }
         );
+
+          bulletExplosions.map((item) => {
+            item.explode(bulletExplosions);
+          });
+
 
         requestAnimationFrame(go);
       }
@@ -129,7 +136,7 @@ const GamePlaceCanvas = () => {
         keyPress = event.code;
 
         if (keyPress === 'Space') {
-          const bullet = new Bullet(ctx, BULLET_STEP, tank.dataPosition, bordersCanvas, bulletSize)
+          const bullet = new Bullet(ctx, BULLET_STEP, tank.dataPosition, bordersCanvas, bulletSize);
           shoot(bullet, activeBullets, 500);
         }
       }

@@ -8,7 +8,7 @@ const Tank = (props) => {
     <div className={cn(styles.tank)}>
       tank: {props.match.params.id}
     </div>
-  )
-}
+  );
+};
 
 export default Tank;
