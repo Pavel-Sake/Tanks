@@ -16,7 +16,7 @@ class Bullet {
     };
   }
 
-  move(index, removeBullet) {
+  move(index, removeBulletAndCreateExplosion) {
     const {borderStartX, borderEndX, borderStartY, borderEndY} = this.bordersCanvas;
 
     this.ctx.fillStyle = "red";
@@ -28,7 +28,7 @@ class Bullet {
         this.positionBullet.y2 -= this.bulletStep;
 
         if (this.positionBullet.y1 < borderStartY) {
-          removeBullet(index);
+          removeBulletAndCreateExplosion(index, this.ctx, this.positionBullet.x1, this.positionBullet.y1);
         }
         break;
       case "ArrowDown":
@@ -36,7 +36,7 @@ class Bullet {
         this.positionBullet.y1 += this.bulletStep;
 
         if (this.positionBullet.y2 > borderEndY) {
-          removeBullet(index);
+          removeBulletAndCreateExplosion(index, this.ctx, this.positionBullet.x1, this.positionBullet.y1);
         }
         break;
       case "ArrowRight":
@@ -44,7 +44,7 @@ class Bullet {
         this.positionBullet.x1 += this.bulletStep;
 
         if (this.positionBullet.x2 > borderEndX) {
-          removeBullet(index);
+          removeBulletAndCreateExplosion(index, this.ctx, this.positionBullet.x1, this.positionBullet.y1);
         }
         break;
       case "ArrowLeft":
@@ -52,7 +52,7 @@ class Bullet {
         this.positionBullet.x2 -= this.bulletStep;
 
         if (this.positionBullet.x1 < borderStartX) {
-          removeBullet(index);
+          removeBulletAndCreateExplosion(index, this.ctx, this.positionBullet.x1, this.positionBullet.y1);
         }
         break;
     }
