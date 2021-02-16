@@ -6,7 +6,7 @@ const dataExplosion1 = {
   height: 103,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion2 = {
   sx: 158,
   sy: 884,
@@ -14,7 +14,7 @@ const dataExplosion2 = {
   height: 105,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion3 = {
   sx: 286,
   sy: 884,
@@ -22,7 +22,7 @@ const dataExplosion3 = {
   height: 105,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion4 = {
   sx: 414,
   sy: 883,
@@ -30,7 +30,7 @@ const dataExplosion4 = {
   height: 106,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion5 = {
   sx: 542,
   sy: 883,
@@ -38,7 +38,7 @@ const dataExplosion5 = {
   height: 109,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion6 = {
   sx: 670,
   sy: 883,
@@ -46,7 +46,7 @@ const dataExplosion6 = {
   height: 115,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion7 = {
   sx: 798,
   sy: 883,
@@ -54,7 +54,7 @@ const dataExplosion7 = {
   height: 118,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion8 = {
   sx: 992,
   sy: 883,
@@ -62,7 +62,7 @@ const dataExplosion8 = {
   height: 121,
   widthExp: null,
   heightExp: null
-}
+};
 
 const dataExplosion9 = {
   sx: 22,
@@ -71,7 +71,7 @@ const dataExplosion9 = {
   height: 127,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion10 = {
   sx: 147,
   sy: 706,
@@ -79,7 +79,7 @@ const dataExplosion10 = {
   height: 132,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion11 = {
   sx: 272,
   sy: 703,
@@ -87,7 +87,7 @@ const dataExplosion11 = {
   height: 136,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion12 = {
   sx: 398,
   sy: 701,
@@ -95,7 +95,7 @@ const dataExplosion12 = {
   height: 139,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion13 = {
   sx: 524,
   sy: 699,
@@ -103,7 +103,7 @@ const dataExplosion13 = {
   height: 142,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion14 = {
   sx: 651,
   sy: 697,
@@ -111,7 +111,7 @@ const dataExplosion14 = {
   height: 145,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion15 = {
   sx: 777,
   sy: 696,
@@ -119,7 +119,7 @@ const dataExplosion15 = {
   height: 146,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion16 = {
   sx: 904,
   sy: 694,
@@ -127,7 +127,7 @@ const dataExplosion16 = {
   height: 149,
   widthExp: null,
   heightExp: null
-}
+};
 
 const dataExplosion17 = {
   sx: 7,
@@ -136,7 +136,7 @@ const dataExplosion17 = {
   height: 151,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion18 = {
   sx: 134,
   sy: 521,
@@ -144,7 +144,7 @@ const dataExplosion18 = {
   height: 152,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion19 = {
   sx: 261,
   sy: 520,
@@ -152,7 +152,7 @@ const dataExplosion19 = {
   height: 154,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion20 = {
   sx: 389,
   sy: 520,
@@ -160,7 +160,7 @@ const dataExplosion20 = {
   height: 154,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion21 = {
   sx: 516,
   sy: 519,
@@ -168,7 +168,7 @@ const dataExplosion21 = {
   height: 155,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion22 = {
   sx: 644,
   sy: 519,
@@ -176,7 +176,7 @@ const dataExplosion22 = {
   height: 155,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion23 = {
   sx: 772,
   sy: 518,
@@ -184,7 +184,7 @@ const dataExplosion23 = {
   height: 157,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion24 = {
   sx: 899,
   sy: 518,
@@ -192,7 +192,7 @@ const dataExplosion24 = {
   height: 157,
   widthExp: null,
   heightExp: null
-}
+};
 
 const dataExplosion25 = {
   sx: 3,
@@ -201,7 +201,7 @@ const dataExplosion25 = {
   height: 157,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion26 = {
   sx: 131,
   sy: 346,
@@ -209,7 +209,7 @@ const dataExplosion26 = {
   height: 158,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion27 = {
   sx: 258,
   sy: 346,
@@ -217,7 +217,7 @@ const dataExplosion27 = {
   height: 158,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion28 = {
   sx: 386,
   sy: 346,
@@ -225,7 +225,7 @@ const dataExplosion28 = {
   height: 158,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion29 = {
   sx: 514,
   sy: 345,
@@ -233,7 +233,7 @@ const dataExplosion29 = {
   height: 158,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion30 = {
   sx: 641,
   sy: 345,
@@ -241,7 +241,7 @@ const dataExplosion30 = {
   height: 159,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion31 = {
   sx: 769,
   sy: 345,
@@ -249,7 +249,7 @@ const dataExplosion31 = {
   height: 160,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion32 = {
   sx: 897,
   sy: 344,
@@ -257,7 +257,7 @@ const dataExplosion32 = {
   height: 161,
   widthExp: null,
   heightExp: null
-}
+};
 
 const dataExplosion33 = {
   sx: 0,
@@ -266,7 +266,7 @@ const dataExplosion33 = {
   height: 165,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion34 = {
   sx: 131,
   sy: 173,
@@ -274,7 +274,7 @@ const dataExplosion34 = {
   height: 165,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion35 = {
   sx: 258,
   sy: 173,
@@ -282,7 +282,7 @@ const dataExplosion35 = {
   height: 165,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion36 = {
   sx: 388,
   sy: 173,
@@ -290,7 +290,7 @@ const dataExplosion36 = {
   height: 165,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion37 = {
   sx: 512,
   sy: 173,
@@ -298,7 +298,7 @@ const dataExplosion37 = {
   height: 165,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion38 = {
   sx: 640,
   sy: 179,
@@ -306,7 +306,7 @@ const dataExplosion38 = {
   height: 159,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion39 = {
   sx: 772,
   sy: 179,
@@ -314,7 +314,7 @@ const dataExplosion39 = {
   height: 160,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion40 = {
   sx: 907,
   sy: 180,
@@ -322,7 +322,7 @@ const dataExplosion40 = {
   height: 159,
   widthExp: null,
   heightExp: null
-}
+};
 
 const dataExplosion41 = {
   sx: 11,
@@ -331,7 +331,7 @@ const dataExplosion41 = {
   height: 155,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion42 = {
   sx: 141,
   sy: 18,
@@ -339,7 +339,7 @@ const dataExplosion42 = {
   height: 146,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion43 = {
   sx: 271,
   sy: 19,
@@ -347,7 +347,7 @@ const dataExplosion43 = {
   height: 140,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion44 = {
   sx: 409,
   sy: 20,
@@ -355,7 +355,7 @@ const dataExplosion44 = {
   height: 138,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion45 = {
   sx: 538,
   sy: 23,
@@ -363,7 +363,7 @@ const dataExplosion45 = {
   height: 131,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion46 = {
   sx: 665,
   sy: 25,
@@ -371,7 +371,7 @@ const dataExplosion46 = {
   height: 129,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion47 = {
   sx: 792,
   sy: 26,
@@ -379,7 +379,7 @@ const dataExplosion47 = {
   height: 112,
   widthExp: null,
   heightExp: null
-}
+};
 const dataExplosion48 = {
   sx: 931,
   sy: 30,
@@ -387,7 +387,7 @@ const dataExplosion48 = {
   height: 104,
   widthExp: null,
   heightExp: null
-}
+};
 
 const dataExplosions = [
  dataExplosion1,
@@ -443,7 +443,7 @@ dataExplosion3,
  dataExplosion46 ,
  dataExplosion47,
  dataExplosion48
-]
+];
 
 
-export default dataExplosions
+export default dataExplosions;

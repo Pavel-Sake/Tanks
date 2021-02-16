@@ -13,16 +13,25 @@ class BulletExplosion {
     this.durationOfAnimationInFrames = dataExplosionBullet.length;
 
     this.count = 0;
+
+    this.widthBullet = 25;
+    this.heighBullet = 25;
   }
 
-  xplosion (bulletExplosions) {
+  explode (bulletExplosions) {
 
-    const positionExplasionX = this.positionBulletX - ((dataExplosionBullet[this.count].widthExp - 25) / 2);
-    const positionExplasionY = this.positionBulletY - ((dataExplosionBullet[this.count].heightExp - 25) / 2);
+    const positionExplasionX = this.positionBulletX - ((dataExplosionBullet[this.count].widthExp - this.widthBullet) / 2);
+    const positionExplasionY = this.positionBulletY - ((dataExplosionBullet[this.count].heightExp - this.heighBullet) / 2);
 
     this.ctx.drawImage(
-      this.image, dataExplosionBullet[this.count].sx, dataExplosionBullet[this.count].sy, dataExplosionBullet[this.count].width, dataExplosionBullet[this.count].height,
-      positionExplasionX, positionExplasionY,  dataExplosionBullet[this.count].widthExp, dataExplosionBullet[this.count].heightExp
+      this.image, dataExplosionBullet[this.count].sx,
+      dataExplosionBullet[this.count].sy,
+      dataExplosionBullet[this.count].width,
+      dataExplosionBullet[this.count].height,
+      positionExplasionX,
+      positionExplasionY,
+      dataExplosionBullet[this.count].widthExp,
+      dataExplosionBullet[this.count].heightExp
     );
 
     this.count ++;

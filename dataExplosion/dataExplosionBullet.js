@@ -69,21 +69,21 @@ const data3 = []
 data3.length = countRepeat
 data3.fill(dataExplosion3)
 
-const data4 = []
-data4.length = countRepeat
-data4.fill(dataExplosion4)
+const data4 = [];
+data4.length = countRepeat;
+data4.fill(dataExplosion4);
 
-const data5 = []
-data5.length = countRepeat
-data5.fill(dataExplosion5)
+const data5 = [];
+data5.length = countRepeat;
+data5.fill(dataExplosion5);
 
-const data6 = []
- data6.length = countRepeat
- data6.fill(dataExplosion6)
+const data6 = [];
+ data6.length = countRepeat;
+ data6.fill(dataExplosion6);
 
-const data7 = []
- data7.length = countRepeat
- data7.fill(dataExplosion7)
+const data7 = [];
+ data7.length = countRepeat;
+ data7.fill(dataExplosion7);
 
 const dataExplosionBullet = [...data1, ...data2, ...data3, ...data4, ...data5, ...data6, ...data7];
 

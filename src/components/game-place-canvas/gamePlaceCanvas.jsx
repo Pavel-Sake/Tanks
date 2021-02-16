@@ -112,12 +112,10 @@ const GamePlaceCanvas = () => {
           }
         );
 
-        if (bulletExplosions.length !== 0) {
           bulletExplosions.map((item) => {
-            item.xplosion(bulletExplosions);
+            item.explode(bulletExplosions);
           });
 
-        }
 
         requestAnimationFrame(go);
       }
