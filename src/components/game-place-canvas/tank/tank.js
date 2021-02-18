@@ -20,8 +20,6 @@ class Tank {
 
     this.TANK_STEP = TANK_STEP;
     this.currentDirectionTank = 'ArrowUp';
-
-
   }
 
   move(keyPress, getIntersectedObjs, arrOtherObjs) {
@@ -37,14 +35,14 @@ class Tank {
       y2: this.positionTank.y2,
     };
 
+
     switch (keyPress) {
       case 'ArrowUp':
-        if (this.positionTank.y1 >= borderStartY) {
           this.nextPosition.y1 -= this.TANK_STEP;
 
-          const intersectedObjs = getIntersectedObjs(this.nextPosition, arrOtherObjs);
+          const intersectedObjsUp = getIntersectedObjs(this.nextPosition, arrOtherObjs);
 
-          if (intersectedObjs.length === 0) {
+          if (intersectedObjsUp.length === 0) {
             this.positionTank.y1 -= this.TANK_STEP;
             this.positionTank.y2 -= this.TANK_STEP;
           } else {
@@ -55,15 +53,13 @@ class Tank {
           this.positionGunY = this.positionTank.y1 - this.shiftToBullet;
 
           this.currentDirectionTank = 'ArrowUp';
-        }
         break;
       case 'ArrowDown':
-        if (this.positionTank.y2 <= borderEndY) {
           this.nextPosition.y2 += this.TANK_STEP;
 
-          const intersectedObjs = getIntersectedObjs(this.nextPosition, arrOtherObjs);
+          const intersectedObjsDown = getIntersectedObjs(this.nextPosition, arrOtherObjs);
 
-          if (intersectedObjs.length === 0) {
+          if (intersectedObjsDown.length === 0) {
             this.positionTank.y1 += this.TANK_STEP;
             this.positionTank.y2 += this.TANK_STEP;
           } else {
@@ -74,46 +70,40 @@ class Tank {
           this.positionGunY = this.positionTank.y1 + this.shiftToTank;
 
           this.currentDirectionTank = 'ArrowDown'
-        }
         break;
       case 'ArrowRight':
-        if (this.positionTank.x2 <= borderEndX) {
-
           this.nextPosition.x2 += this.TANK_STEP;
 
-          const intersectedObjs = getIntersectedObjs(this.nextPosition, arrOtherObjs);
+          const intersectedObjsRight = getIntersectedObjs(this.nextPosition, arrOtherObjs);
 
-          if (intersectedObjs.length === 0) {
+          if (intersectedObjsRight.length === 0) {
             this.positionTank.x2 += this.TANK_STEP;
             this.positionTank.x1 += this.TANK_STEP;
           } else {
-            this.nextPosition.x2 = this.positionTank.x2
+            this.nextPosition.x2 = this.positionTank.x2;
           }
 
           this.positionGunX = this.positionTank.x1 + this.shiftToTank;
           this.positionGunY = this.positionTank.y1 + this.shiftToCenterTank;
 
           this.currentDirectionTank = 'ArrowRight';
-        }
         break;
       case 'ArrowLeft':
-        if (this.positionTank.x1 >= borderStartX) {
           this.nextPosition.x1 -= this.TANK_STEP;
 
-          const intersectedObjs = getIntersectedObjs(this.nextPosition, arrOtherObjs);
+          const intersectedObjsLeft = getIntersectedObjs(this.nextPosition, arrOtherObjs);
 
-          if (intersectedObjs.length === 0) {
+          if (intersectedObjsLeft.length === 0) {
             this.positionTank.x1 -= this.TANK_STEP;
             this.positionTank.x2 -= this.TANK_STEP;
           } else {
-            this.nextPosition.x1 = this.positionTank.x1
+            this.nextPosition.x1 = this.positionTank.x1;
           }
 
           this.positionGunX = this.positionTank.x1 - this.shiftToBullet;
           this.positionGunY = this.positionTank.y1 + this.shiftToCenterTank;
 
-          this.currentDirectionTank = 'ArrowLeft'
-        }
+          this.currentDirectionTank = 'ArrowLeft';
         break;
     }
   }
@@ -123,7 +113,7 @@ class Tank {
       positionGunX: this.positionGunX,
       positionGunY: this.positionGunY,
       currentDirectionTank: this.currentDirectionTank
-    }
+    };
   }
 }
 
