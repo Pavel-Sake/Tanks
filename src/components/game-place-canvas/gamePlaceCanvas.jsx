@@ -2,6 +2,7 @@ import React, {useRef, useEffect} from 'react';
 
 import styles from './gamePlaceCanvas.pcss';
 import Tank from './tank/tank';
+import TankRival from './tank/tankRival';
 import Bullet from './bullet/bullet';
 
 
@@ -50,6 +51,31 @@ const activeBullets = [];
 const bulletExplosions = [];
 
 //---------
+const borderCanvasUp = {
+  x1: 0,
+  x2: 1200,
+  y1: -25,
+  y2: 0,
+};
+const borderCanvasDown = {
+  x1: 0,
+  x2: 1200,
+  y1: 900,
+  y2: 925,
+};
+const borderCanvasLeft = {
+  x1: -25,
+  x2: 0,
+  y1: 0,
+  y2: 900
+};
+const borderCanvasRight = {
+  x1: 1200,
+  x2: 1225,
+  y1: 0,
+  y2: 900
+};
+
 
 const otherObj = {
   x1: 625,
@@ -65,8 +91,34 @@ const otherObj2 = {
   y2: 525
 };
 
+const otherObj3 = {
+  x1: 0,
+  x2: 100,
+  y1: 500,
+  y2: 525
+};
 
-const arrOtherObjs = [otherObj, otherObj2];
+const otherObj4 = {
+  x1: 100,
+  x2: 150,
+  y1: 500,
+  y2: 525
+};
+
+
+const arrOtherObjs = [borderCanvasUp, borderCanvasDown, borderCanvasLeft, borderCanvasRight, otherObj, otherObj2, otherObj3, otherObj4];
+
+//-------------
+
+let positionRivalTank = {
+  x1: 500,
+  x2: 500 + sizeTank.width,
+  y1: 400,
+  y2: 400 + sizeTank.height,
+};
+
+let positionRivalGunX = positionRivalTank.x1 + shiftToCenterTank;
+let positionRivalGunY = positionRivalTank.y1 - shiftToBullet;
 
 
 const GamePlaceCanvas = () => {
@@ -76,6 +128,7 @@ const GamePlaceCanvas = () => {
     activeBullets.splice(index, 1);
     bulletExplosions.push(new BulletExplosion(ctx, positionBulletX, positionBulletY));
   };
+
 
   useEffect(() => {
       const ctx = canvasRef.current.getContext('2d');
@@ -88,6 +141,12 @@ const GamePlaceCanvas = () => {
         shiftToTank, shiftToBullet, shiftToCenterTank,
       );
 
+      const tankRival = new TankRival(
+        ctx, positionRivalTank, positionRivalGunX, positionRivalGunY,
+        sizeTank, bulletSize, bordersCanvas, TANK_STEP,
+        shiftToTank, shiftToBullet, shiftToCenterTank
+      );
+
 
       function go() {
         ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -98,7 +157,15 @@ const GamePlaceCanvas = () => {
         ctx.fillStyle = "blue";
         ctx.fillRect(otherObj2.x1, otherObj2.y1, 25, 25);
 
+        ctx.fillStyle = "#5F3492";
+        ctx.fillRect(otherObj3.x1, otherObj2.y1, 100, 25);
+
+        ctx.fillStyle = "#2897a1";
+        ctx.fillRect(otherObj4.x1, otherObj2.y1, 25, 25);
+
         tank.move(keyPress, getIntersectedObjs, arrOtherObjs);
+
+        tankRival.move(getIntersectedObjs, arrOtherObjs);
 
 
         activeBullets.forEach((bullet, index) => {
