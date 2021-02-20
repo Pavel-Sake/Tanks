@@ -4,11 +4,13 @@ import styles from './gamePlaceCanvas.pcss';
 import Tank from './tank/tank';
 import TankRival from './tank/tankRival';
 import Bullet from './bullet/bullet';
+import Wall from "./wall/wall";
 
 
 import shoot from './debounce/debounce';
 import getIntersectedObjs from './acrossingOfObject/acrossingOfObject';
 import BulletExplosion from "../bulletExplosion/bulletExplosion";
+import {getCoordinatesWall, arrCoordinatesOfBlocks} from "./wall/dataWalls";
 
 
 const sizeTank = {
@@ -35,7 +37,7 @@ const shiftToCenterTank = (sizeTank.width - bulletSize.height) / 2;
 let positionGunX = positionTank.x1 + shiftToCenterTank;
 let positionGunY = positionTank.y1 - shiftToBullet;
 
-const TANK_STEP = 5;
+const TANK_STEP = 2.5;
 const BULLET_STEP = 3;
 
 let keyPress = null;
@@ -77,36 +79,10 @@ const borderCanvasRight = {
 };
 
 
-const otherObj = {
-  x1: 625,
-  x2: 650,
-  y1: 500,
-  y2: 525
-};
-
-const otherObj2 = {
-  x1: 600,
-  x2: 625,
-  y1: 500,
-  y2: 525
-};
-
-const otherObj3 = {
-  x1: 0,
-  x2: 100,
-  y1: 500,
-  y2: 525
-};
-
-const otherObj4 = {
-  x1: 100,
-  x2: 150,
-  y1: 500,
-  y2: 525
-};
 
 
-const arrOtherObjs = [borderCanvasUp, borderCanvasDown, borderCanvasLeft, borderCanvasRight, otherObj, otherObj2, otherObj3, otherObj4];
+
+const arrOtherObjs = [borderCanvasUp, borderCanvasDown, borderCanvasLeft, borderCanvasRight, ...arrCoordinatesOfBlocks];
 
 //-------------
 
@@ -147,21 +123,14 @@ const GamePlaceCanvas = () => {
         shiftToTank, shiftToBullet, shiftToCenterTank
       );
 
+      const wall = new Wall(ctx);
+
 
       function go() {
         ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 
-        ctx.fillStyle = "green";
-        ctx.fillRect(otherObj.x1, otherObj.y1, 25, 25);
 
-        ctx.fillStyle = "blue";
-        ctx.fillRect(otherObj2.x1, otherObj2.y1, 25, 25);
-
-        ctx.fillStyle = "#5F3492";
-        ctx.fillRect(otherObj3.x1, otherObj2.y1, 100, 25);
-
-        ctx.fillStyle = "#2897a1";
-        ctx.fillRect(otherObj4.x1, otherObj2.y1, 25, 25);
+        wall.buildingWall();
 
         tank.move(keyPress, getIntersectedObjs, arrOtherObjs);
 
@@ -192,6 +161,8 @@ const GamePlaceCanvas = () => {
       document.addEventListener('keydown', handleKeyDown);
       document.addEventListener('keyup', handleKeyUp);
 
+
+
       return () => {
         document.removeEventListener('keydown', handleKeyDown);
         document.removeEventListener('keyup', handleKeyUp);
@@ -216,6 +187,19 @@ const GamePlaceCanvas = () => {
     []
   );
 
+  function handleClickCanvas(event) {
+
+    const rect = canvasRef.current.getBoundingClientRect();
+
+    console.log('event.pageX', event.pageX - rect.x)
+    console.log('event.pageY', event.pageY - rect.y)
+
+    const x = event.pageX - rect.x;
+    const y = event.pageY - rect.y;
+
+    getCoordinatesWall(x, y);
+  }
+
 
   return (
     <canvas
@@ -223,6 +207,7 @@ const GamePlaceCanvas = () => {
       ref={canvasRef}
       width="1200px"
       height="900px"
+      onClick={handleClickCanvas}
     >
     </canvas>
   );
