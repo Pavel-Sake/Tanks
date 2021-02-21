@@ -10,7 +10,7 @@ import Wall from "./wall/wall";
 import shoot from './debounce/debounce';
 import getIntersectedObjs from './acrossingOfObject/acrossingOfObject';
 import BulletExplosion from "../bulletExplosion/bulletExplosion";
-import {findCoordinatesWall, arrCoordinatesOfBlocks} from "./wall/dataWalls";
+import {findCoordinatesWall, positionOfWall} from "./wall/dataWalls";
 
 
 const sizeTank = {
@@ -79,10 +79,7 @@ const borderCanvasRight = {
 };
 
 
-
-
-
-const arrOtherObjs = [borderCanvasUp, borderCanvasDown, borderCanvasLeft, borderCanvasRight, ...arrCoordinatesOfBlocks];
+const arrOtherObjs = [borderCanvasUp, borderCanvasDown, borderCanvasLeft, borderCanvasRight, ...positionOfWall];
 
 //-------------
 

@@ -1,5 +1,5 @@
 
-import {arrCoordinatesOfBlocks} from './dataWalls'
+import {positionOfWall} from './dataWalls'
 
 
 class Wall {
@@ -10,7 +10,7 @@ class Wall {
   buildingWall () {
 
 
-    arrCoordinatesOfBlocks.forEach((block) => {
+    positionOfWall.forEach((block) => {
       this.ctx.fillStyle = "green";
       this.ctx.fillRect(block.x1, block.y1, 25, 25);
     });
