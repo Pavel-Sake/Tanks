@@ -1,10 +1,21 @@
+
+import {positionOfWall} from './dataWalls'
+
+
 class Wall {
-  constructor() {
+  constructor(ctx) {
+    this.ctx = ctx;
   }
 
-  block () {
-    ctx.fillStyle = "green";
-    ctx.fillRect(50, 50, 25, 25);
+  buildingWall () {
+
+
+    positionOfWall.forEach((block) => {
+      this.ctx.fillStyle = "green";
+      this.ctx.fillRect(block.x1, block.y1, 25, 25);
+    });
 
   }
 }
+
+export default Wall;

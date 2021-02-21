@@ -107,7 +107,7 @@ class TankRival extends Tank {
             this.currentDirectionTank = null;
           }
 
-          this.randomChangeOfDirection()
+          this.randomChangeOfDirection();
           break;
         case 'ArrowLeft':
           const intersectedObjsLeft = getIntersectedObjs(nextPositionLeft.pos, arrOtherObjs);
