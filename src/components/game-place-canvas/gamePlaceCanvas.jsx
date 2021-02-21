@@ -10,7 +10,7 @@ import Wall from "./wall/wall";
 import shoot from './debounce/debounce';
 import getIntersectedObjs from './acrossingOfObject/acrossingOfObject';
 import BulletExplosion from "../bulletExplosion/bulletExplosion";
-import {getCoordinatesWall, arrCoordinatesOfBlocks} from "./wall/dataWalls";
+import {findCoordinatesWall, arrCoordinatesOfBlocks} from "./wall/dataWalls";
 
 
 const sizeTank = {
@@ -191,13 +191,10 @@ const GamePlaceCanvas = () => {
 
     const rect = canvasRef.current.getBoundingClientRect();
 
-    console.log('event.pageX', event.pageX - rect.x)
-    console.log('event.pageY', event.pageY - rect.y)
-
     const x = event.pageX - rect.x;
     const y = event.pageY - rect.y;
 
-    getCoordinatesWall(x, y);
+    findCoordinatesWall(x, y);
   }
 
 

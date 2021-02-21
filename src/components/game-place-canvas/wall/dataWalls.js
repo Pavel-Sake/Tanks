@@ -1,10 +1,4 @@
 
-const lengthCanvasX = 1200;
-const lengthCell = 25;
-
-const maxNumberOfCellsX = lengthCanvasX / lengthCell; // 48
-
-
 const coordinatesOfCellsX = [
   0, 25, 50, 75, 100, 125, 150, 175, 200, 225,
   250, 275, 300, 325, 350, 375, 400, 425, 450,
@@ -35,7 +29,7 @@ function createObjOfBlock(x, y) {
   };
 }
 
-function getCoordinatesWall(x, y) {
+function findCoordinatesWall(x, y) {
 
   const numberOfCellX = coordinatesOfCellsX.find((elementX) => {
     return x >= elementX;
@@ -47,11 +41,7 @@ function getCoordinatesWall(x, y) {
 
   const positionOfBlock = createObjOfBlock(numberOfCellX, numberOfCellY);
 
-  coordinatesOfBlocks.push(positionOfBlock)
-
-  // console.log('numberOfCellX', numberOfCellX);
-  // console.log('numberOfCellY', numberOfCellY);
-  console.log('coordinatesOfBlocks', coordinatesOfBlocks);
+  coordinatesOfBlocks.push(positionOfBlock);
 }
 
 
@@ -135,4 +125,4 @@ const arrCoordinatesOfBlocks = [{x1: 0, x2: 25, y1: 50, y2: 75},
   ];
 
 
-export {getCoordinatesWall, arrCoordinatesOfBlocks}
+export {findCoordinatesWall, arrCoordinatesOfBlocks}
