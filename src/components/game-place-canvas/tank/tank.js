@@ -2,9 +2,13 @@ class Tank {
   constructor(
     ctx, positionTank, positionGunX, positionGunY,
     sizeTank, bulletSize, bordersCanvas, TANK_STEP,
-    shiftToTank, shiftToBullet, shiftToCenterTank
+    shiftToTank, shiftToBullet, shiftToCenterTank,
+    dataTankInSprite,
   ) {
     this.ctx = ctx;
+
+    this.image = new Image();
+    this.image.src = './../../../../assets/tank/tanks.png';
 
     this.positionTank = positionTank;
     this.positionGunX = positionGunX;
@@ -20,13 +24,24 @@ class Tank {
 
     this.TANK_STEP = TANK_STEP;
     this.currentDirectionTank = 'ArrowUp';
+
+    this.dataTankInSprite = dataTankInSprite;
+
+    this.positionSpriteOfTank = {
+      x: 4,
+      y: 2160,
+      width: 134,
+      height: 195,
+    };
+
   }
 
-  move(keyPress, getIntersectedObjs, arrOtherObjs) {
-    const {borderStartY, borderEndY, borderStartX, borderEndX} = this.bordersCanvas;
 
-    this.ctx.fillStyle = "black";
-    this.ctx.fillRect(this.positionTank.x1, this.positionTank.y1, this.sizeTank.width, this.sizeTank.height);
+  move(keyPress, getIntersectedObjs, arrOtherObjs) {
+
+
+    // this.ctx.fillStyle = "black";
+    // this.ctx.fillRect(this.positionTank.x1, this.positionTank.y1, this.sizeTank.width, this.sizeTank.height);
 
     this.nextPosition = {
       x1: this.positionTank.x1,
@@ -35,77 +50,96 @@ class Tank {
       y2: this.positionTank.y2,
     };
 
+    this.ctx.drawImage(
+      this.image, this.positionSpriteOfTank.x, this.positionSpriteOfTank.y,
+      this.positionSpriteOfTank.width, this.positionSpriteOfTank.height,
+      this.positionTank.x1, this.positionTank.y1,
+      this.sizeTank.width, this.sizeTank.height
+    );
+
 
     switch (keyPress) {
       case 'ArrowUp':
-          this.nextPosition.y1 -= this.TANK_STEP;
+        this.nextPosition.y1 -= this.TANK_STEP;
 
-          const intersectedObjsUp = getIntersectedObjs(this.nextPosition, arrOtherObjs);
+        this.changePositionSprite(this.dataTankInSprite.positionUp);
 
-          if (intersectedObjsUp.length === 0) {
-            this.positionTank.y1 -= this.TANK_STEP;
-            this.positionTank.y2 -= this.TANK_STEP;
-          } else {
-            this.nextPosition.y1 = this.positionTank.y1;
-          }
+        const intersectedObjsUp = getIntersectedObjs(this.nextPosition, arrOtherObjs);
 
-          this.positionGunX = this.positionTank.x1 + this.shiftToCenterTank;
-          this.positionGunY = this.positionTank.y1 - this.shiftToBullet;
+        if (intersectedObjsUp.length === 0) {
+          this.positionTank.y1 -= this.TANK_STEP;
+          this.positionTank.y2 -= this.TANK_STEP;
+        } else {
+          this.nextPosition.y1 = this.positionTank.y1;
+        }
 
-          this.currentDirectionTank = 'ArrowUp';
+        this.positionGunX = this.positionTank.x1 + this.shiftToCenterTank;
+        this.positionGunY = this.positionTank.y1 - this.shiftToBullet;
+
+        this.currentDirectionTank = 'ArrowUp';
         break;
       case 'ArrowDown':
-          this.nextPosition.y2 += this.TANK_STEP;
+        this.nextPosition.y2 += this.TANK_STEP;
 
-          const intersectedObjsDown = getIntersectedObjs(this.nextPosition, arrOtherObjs);
+        this.changePositionSprite(this.dataTankInSprite.positionDown);
 
-          if (intersectedObjsDown.length === 0) {
-            this.positionTank.y1 += this.TANK_STEP;
-            this.positionTank.y2 += this.TANK_STEP;
-          } else {
-            this.nextPosition.y2 = this.positionTank.y2
-          }
+        const intersectedObjsDown = getIntersectedObjs(this.nextPosition, arrOtherObjs);
 
-          this.positionGunX = this.positionTank.x1 + this.shiftToCenterTank;
-          this.positionGunY = this.positionTank.y1 + this.shiftToTank;
+        if (intersectedObjsDown.length === 0) {
+          this.positionTank.y1 += this.TANK_STEP;
+          this.positionTank.y2 += this.TANK_STEP;
+        } else {
+          this.nextPosition.y2 = this.positionTank.y2
+        }
 
-          this.currentDirectionTank = 'ArrowDown'
+        this.positionGunX = this.positionTank.x1 + this.shiftToCenterTank;
+        this.positionGunY = this.positionTank.y1 + this.shiftToTank;
+
+        this.currentDirectionTank = 'ArrowDown'
         break;
       case 'ArrowRight':
-          this.nextPosition.x2 += this.TANK_STEP;
+        this.nextPosition.x2 += this.TANK_STEP;
 
-          const intersectedObjsRight = getIntersectedObjs(this.nextPosition, arrOtherObjs);
+        this.changePositionSprite(this.dataTankInSprite.positionRight);
 
-          if (intersectedObjsRight.length === 0) {
-            this.positionTank.x2 += this.TANK_STEP;
-            this.positionTank.x1 += this.TANK_STEP;
-          } else {
-            this.nextPosition.x2 = this.positionTank.x2;
-          }
+        const intersectedObjsRight = getIntersectedObjs(this.nextPosition, arrOtherObjs);
 
-          this.positionGunX = this.positionTank.x1 + this.shiftToTank;
-          this.positionGunY = this.positionTank.y1 + this.shiftToCenterTank;
+        if (intersectedObjsRight.length === 0) {
+          this.positionTank.x2 += this.TANK_STEP;
+          this.positionTank.x1 += this.TANK_STEP;
+        } else {
+          this.nextPosition.x2 = this.positionTank.x2;
+        }
 
-          this.currentDirectionTank = 'ArrowRight';
+        this.positionGunX = this.positionTank.x1 + this.shiftToTank;
+        this.positionGunY = this.positionTank.y1 + this.shiftToCenterTank;
+
+        this.currentDirectionTank = 'ArrowRight';
         break;
       case 'ArrowLeft':
-          this.nextPosition.x1 -= this.TANK_STEP;
+        this.nextPosition.x1 -= this.TANK_STEP;
 
-          const intersectedObjsLeft = getIntersectedObjs(this.nextPosition, arrOtherObjs);
+        this.changePositionSprite(this.dataTankInSprite.positionLeft);
 
-          if (intersectedObjsLeft.length === 0) {
-            this.positionTank.x1 -= this.TANK_STEP;
-            this.positionTank.x2 -= this.TANK_STEP;
-          } else {
-            this.nextPosition.x1 = this.positionTank.x1;
-          }
+        const intersectedObjsLeft = getIntersectedObjs(this.nextPosition, arrOtherObjs);
 
-          this.positionGunX = this.positionTank.x1 - this.shiftToBullet;
-          this.positionGunY = this.positionTank.y1 + this.shiftToCenterTank;
+        if (intersectedObjsLeft.length === 0) {
+          this.positionTank.x1 -= this.TANK_STEP;
+          this.positionTank.x2 -= this.TANK_STEP;
+        } else {
+          this.nextPosition.x1 = this.positionTank.x1;
+        }
 
-          this.currentDirectionTank = 'ArrowLeft';
+        this.positionGunX = this.positionTank.x1 - this.shiftToBullet;
+        this.positionGunY = this.positionTank.y1 + this.shiftToCenterTank;
+
+        this.currentDirectionTank = 'ArrowLeft';
         break;
     }
+  }
+
+  changePositionSprite(position) {
+    this.positionSpriteOfTank = position
   }
 
   get dataPosition() {
