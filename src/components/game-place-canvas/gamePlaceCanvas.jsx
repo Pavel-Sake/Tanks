@@ -12,7 +12,7 @@ import getIntersectedObjs from './acrossingOfObject/acrossingOfObject';
 import BulletExplosion from "../bulletExplosion/bulletExplosion";
 import {findCoordinatesWall, positionOfWall} from "./wall/dataWalls";
 
-import dataTankInSprite from "../../../dataTankInSprite/dataTankinSprite";
+import {dataTankInSprite, dataRivalTankInSprite} from "../../../dataTankInSprite/dataTankinSprite";
 
 
 const sizeTank = {
@@ -122,7 +122,8 @@ const GamePlaceCanvas = () => {
       const tankRival = new TankRival(
         ctx, positionRivalTank, positionRivalGunX, positionRivalGunY,
         sizeTank, bulletSize, bordersCanvas, TANK_STEP,
-        shiftToTank, shiftToBullet, shiftToCenterTank
+        shiftToTank, shiftToBullet, shiftToCenterTank,
+        dataRivalTankInSprite
       );
 
       const wall = new Wall(ctx);

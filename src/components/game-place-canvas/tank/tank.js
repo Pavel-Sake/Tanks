@@ -33,15 +33,10 @@ class Tank {
       width: 134,
       height: 195,
     };
-
   }
 
 
   move(keyPress, getIntersectedObjs, arrOtherObjs) {
-
-
-    // this.ctx.fillStyle = "black";
-    // this.ctx.fillRect(this.positionTank.x1, this.positionTank.y1, this.sizeTank.width, this.sizeTank.height);
 
     this.nextPosition = {
       x1: this.positionTank.x1,

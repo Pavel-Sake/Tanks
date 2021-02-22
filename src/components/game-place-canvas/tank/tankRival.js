@@ -6,13 +6,24 @@ class TankRival extends Tank {
     this.currentDirectionTank = null;
     this.distanceTraveledTank = 0
 
-
     this.distance = 0;
+
+    this.positionSpriteOfTank = {
+      x: 525,
+      y: 981,
+      width: 134,
+      height: 195,
+    };
   }
 
   move(getIntersectedObjs, arrOtherObjs) {
-    this.ctx.fillStyle = "#ab2c77";
-    this.ctx.fillRect(this.positionTank.x1, this.positionTank.y1, this.sizeTank.width, this.sizeTank.height);
+
+    this.ctx.drawImage(
+      this.image, this.positionSpriteOfTank.x, this.positionSpriteOfTank.y,
+      this.positionSpriteOfTank.width, this.positionSpriteOfTank.height,
+      this.positionTank.x1, this.positionTank.y1,
+      this.sizeTank.width, this.sizeTank.height
+    );
 
 
     const nextPositionUp = {
@@ -75,10 +86,11 @@ class TankRival extends Tank {
       this.distance = Math.floor(Math.random() * Math.floor(1200));
     }
 
-
       switch (this.currentDirectionTank) {
         case 'ArrowUp':
           let intersectedObjsUp = getIntersectedObjs(nextPositionUp.pos, arrOtherObjs);
+
+          this.changePositionSprite(this.dataTankInSprite.positionUp);
 
           if (intersectedObjsUp.length === 0) {
             this.positionTank.y1 -= this.TANK_STEP;
@@ -95,6 +107,8 @@ class TankRival extends Tank {
         case 'ArrowDown':
           let intersectedObjsDown = getIntersectedObjs(nextPositionDown.pos, arrOtherObjs);
 
+          this.changePositionSprite(this.dataTankInSprite.positionDown);
+
           if (intersectedObjsDown.length === 0) {
             this.positionTank.y2 += this.TANK_STEP;
             this.positionTank.y1 += this.TANK_STEP;
@@ -110,6 +124,8 @@ class TankRival extends Tank {
         case 'ArrowLeft':
           const intersectedObjsLeft = getIntersectedObjs(nextPositionLeft.pos, arrOtherObjs);
 
+          this.changePositionSprite(this.dataTankInSprite.positionLeft);
+
           if (intersectedObjsLeft.length === 0) {
             this.positionTank.x1 -= this.TANK_STEP;
             this.positionTank.x2 -= this.TANK_STEP;
@@ -124,6 +140,8 @@ class TankRival extends Tank {
           break;
         case 'ArrowRight':
           const intersectedObjsRight = getIntersectedObjs(nextPositionRight.pos, arrOtherObjs);
+
+          this.changePositionSprite(this.dataTankInSprite.positionRight);
 
           if (intersectedObjsRight.length === 0) {
             this.positionTank.x2 += this.TANK_STEP;
