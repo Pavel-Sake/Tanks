@@ -11,8 +11,6 @@ class TankRival extends Tank {
   }
 
   move(getIntersectedObjs, arrOtherObjs) {
-    const {borderStartY, borderEndY, borderStartX, borderEndX} = this.bordersCanvas;
-
     this.ctx.fillStyle = "#ab2c77";
     this.ctx.fillRect(this.positionTank.x1, this.positionTank.y1, this.sizeTank.width, this.sizeTank.height);
 
