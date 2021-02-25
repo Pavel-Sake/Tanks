@@ -6,8 +6,8 @@ import TankRival from './tank/tankRival';
 import Bullet from './bullet/bullet';
 import Wall from "./wall/wall";
 
+import debounce from './debounce/debounce';
 
-import shoot from './debounce/debounce';
 import getIntersectedObjs from './acrossingOfObject/acrossingOfObject';
 import BulletExplosion from "../bulletExplosion/bulletExplosion";
 import {findCoordinatesWall, positionOfWall} from "./wall/dataWalls";
@@ -100,6 +100,12 @@ let positionRivalGunY = positionRivalTank.y1 - shiftToBullet;
 const GamePlaceCanvas = () => {
   const canvasRef = useRef(null);
 
+  const createShot = (ctx, bulletStep, positionGunAndDirectionShot, bulletSize, addBulletInActiveBullets) => {
+    const bullet = new Bullet(ctx, bulletStep, positionGunAndDirectionShot, bulletSize);
+
+    addBulletInActiveBullets(bullet, activeBullets, 1000);
+  };
+
   const removeBulletAndCreateExplosion = (index, ctx, positionBulletX, positionBulletY) => {
     activeBullets.splice(index, 1);
     bulletExplosions.push(new BulletExplosion(ctx, positionBulletX, positionBulletY));
@@ -115,7 +121,7 @@ const GamePlaceCanvas = () => {
         ctx, positionTank, positionGunX, positionGunY,
         sizeTank, bulletSize, bordersCanvas, TANK_STEP,
         shiftToTank, shiftToBullet, shiftToCenterTank,
-        dataTankInSprite
+        dataTankInSprite, debounce()
       );
 
 
@@ -123,7 +129,7 @@ const GamePlaceCanvas = () => {
         ctx, positionRivalTank, positionRivalGunX, positionRivalGunY,
         sizeTank, bulletSize, bordersCanvas, TANK_STEP,
         shiftToTank, shiftToBullet, shiftToCenterTank,
-        dataRivalTankInSprite
+        dataRivalTankInSprite, debounce()
       );
 
       const wall = new Wall(ctx);
@@ -132,16 +138,15 @@ const GamePlaceCanvas = () => {
       function go() {
         ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 
-
         wall.buildingWall();
 
         tank.move(keyPress, getIntersectedObjs, arrOtherObjs);
 
-        tankRival.move(getIntersectedObjs, arrOtherObjs);
+        tankRival.move(getIntersectedObjs, arrOtherObjs, createShot);
 
 
         activeBullets.forEach((bullet, index) => {
-            bullet.move(index, removeBulletAndCreateExplosion);
+            bullet.move();
 
             const intersectedObjs = getIntersectedObjs(bullet.positionBullet, arrOtherObjs);
 
@@ -151,7 +156,8 @@ const GamePlaceCanvas = () => {
           }
         );
 
-          bulletExplosions.map((item) => {
+
+        bulletExplosions.map((item) => {
             item.explode(bulletExplosions);
           });
 
@@ -165,7 +171,6 @@ const GamePlaceCanvas = () => {
       document.addEventListener('keyup', handleKeyUp);
 
 
-
       return () => {
         document.removeEventListener('keydown', handleKeyDown);
         document.removeEventListener('keyup', handleKeyUp);
@@ -177,8 +182,7 @@ const GamePlaceCanvas = () => {
         keyPress = event.code;
 
         if (keyPress === 'Space') {
-          const bullet = new Bullet(ctx, BULLET_STEP, tank.dataPosition, bordersCanvas, bulletSize);
-          shoot(bullet, activeBullets, 500);
+          createShot(ctx, BULLET_STEP, tank.positionGunAndDirectionShot, bulletSize, tank.addBulletInActiveBullets);
         }
       }
 
