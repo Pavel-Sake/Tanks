@@ -3,19 +3,19 @@ import Tank from "./tank";
 class TankRival extends Tank {
   constructor(...arg) {
     super(...arg);
-    this.currentDirectionTank = 'ArrowDown';
+    this.currentDirectionGun = 'ArrowDown';
     this.currentDirectionOfMovement = null;
     this.distanceTraveledTank = 0;
     this.distance = 0;
     this.positionSpriteOfTank = {
-      x: 525,
-      y: 981,
+      x: 1,
+      y: 1846,
       width: 134,
       height: 195,
     };
   }
 
-  move(getIntersectedObjs, arrOtherObjs, createShot) {
+  move(getIntersectedObjs, arrOtherObjs, createShot, bulletStep) {
 
     this.ctx.drawImage(
       this.image, this.positionSpriteOfTank.x, this.positionSpriteOfTank.y,
@@ -24,8 +24,7 @@ class TankRival extends Tank {
       this.sizeTank.width, this.sizeTank.height
     );
 
-    createShot(this.ctx, 5, this.positionGunAndDirectionShot, this.bulletSize, this.addBulletInActiveBullets);
-
+    createShot(this.ctx, bulletStep, this.positionGunAndDirectionShot, this.bulletSize, this.addBulletInActiveBullets);
 
     const allNextPosition = this.createNextPosition();
 
@@ -66,7 +65,7 @@ class TankRival extends Tank {
 
           this.positionGunX = this.positionTank.x1 + this.shiftToCenterTank;
           this.positionGunY = this.positionTank.y1 - this.shiftToBullet;
-          this.currentDirectionTank = 'ArrowUp';
+          this.currentDirectionGun = 'ArrowUp';
 
           this.randomChangeOfDirection();
           break;
@@ -87,7 +86,7 @@ class TankRival extends Tank {
 
           this.positionGunX = this.positionTank.x1 + this.shiftToCenterTank;
           this.positionGunY = this.positionTank.y1 + this.shiftToTank;
-          this.currentDirectionTank = 'ArrowDown';
+          this.currentDirectionGun = 'ArrowDown';
 
           this.randomChangeOfDirection();
           break;
@@ -108,7 +107,7 @@ class TankRival extends Tank {
 
           this.positionGunX = this.positionTank.x1 - this.shiftToBullet;
           this.positionGunY = this.positionTank.y1 + this.shiftToCenterTank;
-          this.currentDirectionTank = 'ArrowLeft';
+          this.currentDirectionGun = 'ArrowLeft';
 
           this.randomChangeOfDirection();
           break;
@@ -129,7 +128,7 @@ class TankRival extends Tank {
 
           this.positionGunX = this.positionTank.x1 + this.shiftToTank;
           this.positionGunY = this.positionTank.y1 + this.shiftToCenterTank;
-          this.currentDirectionTank = 'ArrowRight';
+          this.currentDirectionGun = 'ArrowRight';
 
           this.randomChangeOfDirection();
           break;

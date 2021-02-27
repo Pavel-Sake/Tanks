@@ -16,7 +16,6 @@ class Bullet {
   }
 
   move() {
-
     this.ctx.fillStyle = "red";
     this.ctx.fillRect(this.positionBullet.x1, this.positionBullet.y1, this.bulletSize.width, this.bulletSize.height);
 

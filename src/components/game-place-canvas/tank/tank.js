@@ -23,10 +23,9 @@ class Tank {
 
     this.sizeTank = sizeTank;
     this.bulletSize = bulletSize;
-    this.bordersCanvas = bordersCanvas;
 
     this.TANK_STEP = TANK_STEP;
-    this.currentDirectionTank = 'ArrowUp';
+    this.currentDirectionGun = 'ArrowUp';
 
     this.dataTankInSprite = dataTankInSprite;
 
@@ -77,7 +76,7 @@ class Tank {
         this.positionGunX = this.positionTank.x1 + this.shiftToCenterTank;
         this.positionGunY = this.positionTank.y1 - this.shiftToBullet;
 
-        this.currentDirectionTank = 'ArrowUp';
+        this.currentDirectionGun = 'ArrowUp';
         break;
       case 'ArrowDown':
         this.nextPosition.y2 += this.TANK_STEP;
@@ -96,7 +95,7 @@ class Tank {
         this.positionGunX = this.positionTank.x1 + this.shiftToCenterTank;
         this.positionGunY = this.positionTank.y1 + this.shiftToTank;
 
-        this.currentDirectionTank = 'ArrowDown';
+        this.currentDirectionGun = 'ArrowDown';
         break;
       case 'ArrowLeft':
         this.nextPosition.x1 -= this.TANK_STEP;
@@ -115,7 +114,7 @@ class Tank {
         this.positionGunX = this.positionTank.x1 - this.shiftToBullet;
         this.positionGunY = this.positionTank.y1 + this.shiftToCenterTank;
 
-        this.currentDirectionTank = 'ArrowLeft';
+        this.currentDirectionGun = 'ArrowLeft';
         break;
       case 'ArrowRight':
         this.nextPosition.x2 += this.TANK_STEP;
@@ -134,7 +133,7 @@ class Tank {
         this.positionGunX = this.positionTank.x1 + this.shiftToTank;
         this.positionGunY = this.positionTank.y1 + this.shiftToCenterTank;
 
-        this.currentDirectionTank = 'ArrowRight';
+        this.currentDirectionGun = 'ArrowRight';
         break;
 
     }
@@ -148,7 +147,7 @@ class Tank {
     return {
       positionGunX: this.positionGunX,
       positionGunY: this.positionGunY,
-      directionShot: this.currentDirectionTank
+      directionShot: this.currentDirectionGun
     };
   }
 
