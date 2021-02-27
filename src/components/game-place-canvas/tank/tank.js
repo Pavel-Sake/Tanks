@@ -1,9 +1,12 @@
+// import debounce from "../debounce/debounce";
+
 class Tank {
   constructor(
     ctx, positionTank, positionGunX, positionGunY,
     sizeTank, bulletSize, bordersCanvas, TANK_STEP,
     shiftToTank, shiftToBullet, shiftToCenterTank,
     dataTankInSprite,
+    debounce
   ) {
     this.ctx = ctx;
 
@@ -20,10 +23,9 @@ class Tank {
 
     this.sizeTank = sizeTank;
     this.bulletSize = bulletSize;
-    this.bordersCanvas = bordersCanvas;
 
     this.TANK_STEP = TANK_STEP;
-    this.currentDirectionTank = 'ArrowUp';
+    this.currentDirectionGun = 'ArrowUp';
 
     this.dataTankInSprite = dataTankInSprite;
 
@@ -33,6 +35,9 @@ class Tank {
       width: 134,
       height: 195,
     };
+
+    this.debounce = debounce;
+
   }
 
 
@@ -71,7 +76,7 @@ class Tank {
         this.positionGunX = this.positionTank.x1 + this.shiftToCenterTank;
         this.positionGunY = this.positionTank.y1 - this.shiftToBullet;
 
-        this.currentDirectionTank = 'ArrowUp';
+        this.currentDirectionGun = 'ArrowUp';
         break;
       case 'ArrowDown':
         this.nextPosition.y2 += this.TANK_STEP;
@@ -84,32 +89,13 @@ class Tank {
           this.positionTank.y1 += this.TANK_STEP;
           this.positionTank.y2 += this.TANK_STEP;
         } else {
-          this.nextPosition.y2 = this.positionTank.y2
+          this.nextPosition.y2 = this.positionTank.y2;
         }
 
         this.positionGunX = this.positionTank.x1 + this.shiftToCenterTank;
         this.positionGunY = this.positionTank.y1 + this.shiftToTank;
 
-        this.currentDirectionTank = 'ArrowDown'
-        break;
-      case 'ArrowRight':
-        this.nextPosition.x2 += this.TANK_STEP;
-
-        this.changePositionSprite(this.dataTankInSprite.positionRight);
-
-        const intersectedObjsRight = getIntersectedObjs(this.nextPosition, arrOtherObjs);
-
-        if (intersectedObjsRight.length === 0) {
-          this.positionTank.x2 += this.TANK_STEP;
-          this.positionTank.x1 += this.TANK_STEP;
-        } else {
-          this.nextPosition.x2 = this.positionTank.x2;
-        }
-
-        this.positionGunX = this.positionTank.x1 + this.shiftToTank;
-        this.positionGunY = this.positionTank.y1 + this.shiftToCenterTank;
-
-        this.currentDirectionTank = 'ArrowRight';
+        this.currentDirectionGun = 'ArrowDown';
         break;
       case 'ArrowLeft':
         this.nextPosition.x1 -= this.TANK_STEP;
@@ -128,8 +114,28 @@ class Tank {
         this.positionGunX = this.positionTank.x1 - this.shiftToBullet;
         this.positionGunY = this.positionTank.y1 + this.shiftToCenterTank;
 
-        this.currentDirectionTank = 'ArrowLeft';
+        this.currentDirectionGun = 'ArrowLeft';
         break;
+      case 'ArrowRight':
+        this.nextPosition.x2 += this.TANK_STEP;
+
+        this.changePositionSprite(this.dataTankInSprite.positionRight);
+
+        const intersectedObjsRight = getIntersectedObjs(this.nextPosition, arrOtherObjs);
+
+        if (intersectedObjsRight.length === 0) {
+          this.positionTank.x2 += this.TANK_STEP;
+          this.positionTank.x1 += this.TANK_STEP;
+        } else {
+          this.nextPosition.x2 = this.positionTank.x2;
+        }
+
+        this.positionGunX = this.positionTank.x1 + this.shiftToTank;
+        this.positionGunY = this.positionTank.y1 + this.shiftToCenterTank;
+
+        this.currentDirectionGun = 'ArrowRight';
+        break;
+
     }
   }
 
@@ -137,12 +143,17 @@ class Tank {
     this.positionSpriteOfTank = position
   }
 
-  get dataPosition() {
+  get positionGunAndDirectionShot() {
     return {
       positionGunX: this.positionGunX,
       positionGunY: this.positionGunY,
-      currentDirectionTank: this.currentDirectionTank
+      directionShot: this.currentDirectionGun
     };
+  }
+
+  get addBulletInActiveBullets() {
+
+    return this.debounce;
   }
 }
 

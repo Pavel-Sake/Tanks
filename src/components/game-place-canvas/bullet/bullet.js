@@ -1,11 +1,10 @@
 class Bullet {
-  constructor(ctx, bulletStep, dataPosition, bordersCanvas, bulletSize) {
+  constructor(ctx, bulletStep, positionGunAndDirectionShot, bulletSize) {
     this.ctx = ctx;
-    this.bordersCanvas = bordersCanvas;
     this.bulletStep = bulletStep;
-    this.positionGunX = dataPosition.positionGunX;
-    this.positionGunY = dataPosition.positionGunY;
-    this.prevDirectionTank = dataPosition.currentDirectionTank;
+    this.positionGunX = positionGunAndDirectionShot.positionGunX;
+    this.positionGunY = positionGunAndDirectionShot.positionGunY;
+    this.directionShot = positionGunAndDirectionShot.directionShot;
     this.bulletSize = bulletSize;
 
     this.positionBullet = {
@@ -16,44 +15,26 @@ class Bullet {
     };
   }
 
-  move(index, removeBulletAndCreateExplosion) {
-    const {borderStartX, borderEndX, borderStartY, borderEndY} = this.bordersCanvas;
-
+  move() {
     this.ctx.fillStyle = "red";
     this.ctx.fillRect(this.positionBullet.x1, this.positionBullet.y1, this.bulletSize.width, this.bulletSize.height);
 
-    switch (this.prevDirectionTank) {
+    switch (this.directionShot) {
       case "ArrowUp":
         this.positionBullet.y1 -= this.bulletStep;
         this.positionBullet.y2 -= this.bulletStep;
-
-        if (this.positionBullet.y1 < borderStartY) {
-          removeBulletAndCreateExplosion(index, this.ctx, this.positionBullet.x1, this.positionBullet.y1);
-        }
         break;
       case "ArrowDown":
         this.positionBullet.y2 += this.bulletStep;
         this.positionBullet.y1 += this.bulletStep;
-
-        if (this.positionBullet.y2 > borderEndY) {
-          removeBulletAndCreateExplosion(index, this.ctx, this.positionBullet.x1, this.positionBullet.y1);
-        }
         break;
       case "ArrowRight":
         this.positionBullet.x2 += this.bulletStep;
         this.positionBullet.x1 += this.bulletStep;
-
-        if (this.positionBullet.x2 > borderEndX) {
-          removeBulletAndCreateExplosion(index, this.ctx, this.positionBullet.x1, this.positionBullet.y1);
-        }
         break;
       case "ArrowLeft":
         this.positionBullet.x1 -= this.bulletStep;
         this.positionBullet.x2 -= this.bulletStep;
-
-        if (this.positionBullet.x1 < borderStartX) {
-          removeBulletAndCreateExplosion(index, this.ctx, this.positionBullet.x1, this.positionBullet.y1);
-        }
         break;
     }
   }

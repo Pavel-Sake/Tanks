@@ -3,20 +3,17 @@ function debounce() {
 
   return  (func, countActiveBullet, ms) => {
     if (isCooldonw) {
-      return
+      return;
     }
 
-    countActiveBullet.push(func)
+    countActiveBullet.push(func);
 
     isCooldonw = true;
 
     setTimeout(() => {
       isCooldonw = false;
-    }, ms)
-  }
-
+    }, ms);
+  };
 }
 
-const shoot = debounce()
-
-export default shoot;
+export default debounce;

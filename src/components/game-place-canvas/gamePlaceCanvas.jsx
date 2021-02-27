@@ -6,8 +6,8 @@ import TankRival from './tank/tankRival';
 import Bullet from './bullet/bullet';
 import Wall from "./wall/wall";
 
+import debounce from './debounce/debounce';
 
-import shoot from './debounce/debounce';
 import getIntersectedObjs from './acrossingOfObject/acrossingOfObject';
 import BulletExplosion from "../bulletExplosion/bulletExplosion";
 import {findCoordinatesWall, positionOfWall} from "./wall/dataWalls";
@@ -41,7 +41,7 @@ let positionGunX = positionTank.x1 + shiftToCenterTank;
 let positionGunY = positionTank.y1 - shiftToBullet;
 
 const TANK_STEP = 2.5;
-const BULLET_STEP = 3;
+const BULLET_STEP = 5;
 
 let keyPress = null;
 
@@ -87,18 +87,34 @@ const arrOtherObjs = [borderCanvasUp, borderCanvasDown, borderCanvasLeft, border
 //-------------
 
 let positionRivalTank = {
-  x1: 500,
-  x2: 500 + sizeTank.width,
-  y1: 400,
-  y2: 400 + sizeTank.height,
+  x1: 50,
+  x2: 50 + sizeTank.width,
+  y1: 0,
+  y2: 0 + sizeTank.height,
 };
 
 let positionRivalGunX = positionRivalTank.x1 + shiftToCenterTank;
 let positionRivalGunY = positionRivalTank.y1 - shiftToBullet;
 
+// let positionRivalTank2 = {
+//   x1: 1000,
+//   x2: 1000 + sizeTank.width,
+//   y1: 400,
+//   y2: 400 + sizeTank.height,
+// };
+//
+// let positionRivalGun2X = positionRivalTank.x1 + shiftToCenterTank;
+// let positionRivalGun2Y = positionRivalTank.y1 - shiftToBullet;
+
 
 const GamePlaceCanvas = () => {
   const canvasRef = useRef(null);
+
+  const createShot = (ctx, bulletStep, positionGunAndDirectionShot, bulletSize, addBulletInActiveBullets) => {
+    const bullet = new Bullet(ctx, bulletStep, positionGunAndDirectionShot, bulletSize);
+
+    addBulletInActiveBullets(bullet, activeBullets, 1000);
+  };
 
   const removeBulletAndCreateExplosion = (index, ctx, positionBulletX, positionBulletY) => {
     activeBullets.splice(index, 1);
@@ -115,7 +131,7 @@ const GamePlaceCanvas = () => {
         ctx, positionTank, positionGunX, positionGunY,
         sizeTank, bulletSize, bordersCanvas, TANK_STEP,
         shiftToTank, shiftToBullet, shiftToCenterTank,
-        dataTankInSprite
+        dataTankInSprite, debounce()
       );
 
 
@@ -123,8 +139,16 @@ const GamePlaceCanvas = () => {
         ctx, positionRivalTank, positionRivalGunX, positionRivalGunY,
         sizeTank, bulletSize, bordersCanvas, TANK_STEP,
         shiftToTank, shiftToBullet, shiftToCenterTank,
-        dataRivalTankInSprite
+        dataRivalTankInSprite, debounce()
       );
+
+      // const tankRival2 = new TankRival(
+      //   ctx, positionRivalTank2, positionRivalGun2X, positionRivalGun2Y,
+      //   sizeTank, bulletSize, bordersCanvas, TANK_STEP,
+      //   shiftToTank, shiftToBullet, shiftToCenterTank,
+      //   dataRivalTankInSprite, debounce()
+      // );
+
 
       const wall = new Wall(ctx);
 
@@ -132,16 +156,17 @@ const GamePlaceCanvas = () => {
       function go() {
         ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 
-
         wall.buildingWall();
 
         tank.move(keyPress, getIntersectedObjs, arrOtherObjs);
 
-        tankRival.move(getIntersectedObjs, arrOtherObjs);
+        tankRival.move(getIntersectedObjs, arrOtherObjs, createShot, BULLET_STEP);
+
+        // tankRival2.move(getIntersectedObjs, arrOtherObjs, createShot);
 
 
         activeBullets.forEach((bullet, index) => {
-            bullet.move(index, removeBulletAndCreateExplosion);
+            bullet.move();
 
             const intersectedObjs = getIntersectedObjs(bullet.positionBullet, arrOtherObjs);
 
@@ -151,7 +176,8 @@ const GamePlaceCanvas = () => {
           }
         );
 
-          bulletExplosions.map((item) => {
+
+        bulletExplosions.map((item) => {
             item.explode(bulletExplosions);
           });
 
@@ -165,7 +191,6 @@ const GamePlaceCanvas = () => {
       document.addEventListener('keyup', handleKeyUp);
 
 
-
       return () => {
         document.removeEventListener('keydown', handleKeyDown);
         document.removeEventListener('keyup', handleKeyUp);
@@ -177,8 +202,7 @@ const GamePlaceCanvas = () => {
         keyPress = event.code;
 
         if (keyPress === 'Space') {
-          const bullet = new Bullet(ctx, BULLET_STEP, tank.dataPosition, bordersCanvas, bulletSize);
-          shoot(bullet, activeBullets, 500);
+          createShot(ctx, BULLET_STEP, tank.positionGunAndDirectionShot, bulletSize, tank.addBulletInActiveBullets);
         }
       }
 
