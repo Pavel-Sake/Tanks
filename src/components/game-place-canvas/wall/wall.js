@@ -1,4 +1,4 @@
-import {positionOfWall} from './dataWalls'
+import { positionOfWall } from './dataWalls'
 
 
 class Wall {

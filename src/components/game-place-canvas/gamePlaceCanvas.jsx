@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import styles from './gamePlaceCanvas.pcss';
 import Tank from './tank/tank';
@@ -10,9 +10,9 @@ import debounce from './debounce/debounce';
 
 import getIntersectedObjs from './acrossingOfObject/acrossingOfObject';
 import BulletExplosion from "../bulletExplosion/bulletExplosion";
-import {findCoordinatesWall, positionOfWall} from "./wall/dataWalls";
+import { findCoordinatesWall, positionOfWall } from "./wall/dataWalls";
 
-import {dataTankInSprite, dataRivalTankInSprite} from "../../../dataTankInSprite/dataTankinSprite";
+import { dataTankInSprite, dataRivalTankInSprite } from "../../../dataTankInSprite/dataTankinSprite";
 
 
 const sizeTank = {
@@ -94,7 +94,7 @@ let positionRivalTank = {
 };
 
 let positionRivalGunX = positionRivalTank.x1 + shiftToCenterTank;
-let positionRivalGunY = positionRivalTank.y1 - shiftToBullet;
+let positionRivalGunY = positionRivalTank.y1 + shiftToTank;
 
 
 const GamePlaceCanvas = () => {
@@ -133,7 +133,6 @@ const GamePlaceCanvas = () => {
       );
 
 
-
       const wall = new Wall(ctx);
 
 
@@ -142,21 +141,20 @@ const GamePlaceCanvas = () => {
 
         wall.buildingWall();
 
-        const arrOtherObjs = [
-          ...borderCanvas, ...positionOfWall,
+        const allObjsForRivalTank = [...borderCanvas, ...positionOfWall, tank.coordinatesPositionTank];
+        const allObjsForMainTank = [...borderCanvas, ...positionOfWall, tankRival.coordinatesPositionTank];
+        const allObjsForBullet = [...borderCanvas, ...positionOfWall, tankRival.coordinatesPositionTank, tank.coordinatesPositionTank];
 
-        ];
 
+        tank.move(keyPress, getIntersectedObjs, allObjsForMainTank);
 
-        tank.move(keyPress, getIntersectedObjs, arrOtherObjs);
-
-        tankRival.move(getIntersectedObjs, arrOtherObjs, createShot, BULLET_STEP);
+        tankRival.move(getIntersectedObjs, allObjsForRivalTank, createShot, BULLET_STEP);
 
 
         activeBullets.forEach((bullet, index) => {
             bullet.move();
 
-            const intersectedObjs = getIntersectedObjs(bullet.positionBullet, arrOtherObjs);
+            const intersectedObjs = getIntersectedObjs(bullet.positionBullet, allObjsForBullet);
 
             if (intersectedObjs.length !== 0) {
               removeBulletAndCreateExplosion(index, ctx, bullet.positionBullet.x1, bullet.positionBullet.y1);
