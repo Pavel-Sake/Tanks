@@ -155,6 +155,12 @@ class Tank {
 
     return this.debounce;
   }
+
+  get coordinatesPositionTank() {
+
+    return this.positionTank;
+  }
+
 }
 
 

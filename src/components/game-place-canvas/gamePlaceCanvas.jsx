@@ -82,7 +82,7 @@ const borderCanvasRight = {
 };
 
 
-const arrOtherObjs = [borderCanvasUp, borderCanvasDown, borderCanvasLeft, borderCanvasRight, ...positionOfWall];
+const borderCanvas = [borderCanvasUp, borderCanvasDown, borderCanvasLeft, borderCanvasRight];
 
 //-------------
 
@@ -95,16 +95,6 @@ let positionRivalTank = {
 
 let positionRivalGunX = positionRivalTank.x1 + shiftToCenterTank;
 let positionRivalGunY = positionRivalTank.y1 - shiftToBullet;
-
-// let positionRivalTank2 = {
-//   x1: 1000,
-//   x2: 1000 + sizeTank.width,
-//   y1: 400,
-//   y2: 400 + sizeTank.height,
-// };
-//
-// let positionRivalGun2X = positionRivalTank.x1 + shiftToCenterTank;
-// let positionRivalGun2Y = positionRivalTank.y1 - shiftToBullet;
 
 
 const GamePlaceCanvas = () => {
@@ -142,12 +132,6 @@ const GamePlaceCanvas = () => {
         dataRivalTankInSprite, debounce()
       );
 
-      // const tankRival2 = new TankRival(
-      //   ctx, positionRivalTank2, positionRivalGun2X, positionRivalGun2Y,
-      //   sizeTank, bulletSize, bordersCanvas, TANK_STEP,
-      //   shiftToTank, shiftToBullet, shiftToCenterTank,
-      //   dataRivalTankInSprite, debounce()
-      // );
 
 
       const wall = new Wall(ctx);
@@ -158,11 +142,15 @@ const GamePlaceCanvas = () => {
 
         wall.buildingWall();
 
+        const arrOtherObjs = [
+          ...borderCanvas, ...positionOfWall,
+
+        ];
+
+
         tank.move(keyPress, getIntersectedObjs, arrOtherObjs);
 
         tankRival.move(getIntersectedObjs, arrOtherObjs, createShot, BULLET_STEP);
-
-        // tankRival2.move(getIntersectedObjs, arrOtherObjs, createShot);
 
 
         activeBullets.forEach((bullet, index) => {
@@ -178,8 +166,8 @@ const GamePlaceCanvas = () => {
 
 
         bulletExplosions.map((item) => {
-            item.explode(bulletExplosions);
-          });
+          item.explode(bulletExplosions);
+        });
 
 
         requestAnimationFrame(go);

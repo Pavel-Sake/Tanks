@@ -1,4 +1,3 @@
-
 import {positionOfWall} from './dataWalls'
 
 
@@ -9,12 +8,10 @@ class Wall {
 
   buildingWall () {
 
-
     positionOfWall.forEach((block) => {
       this.ctx.fillStyle = "green";
       this.ctx.fillRect(block.x1, block.y1, 25, 25);
     });
-
   }
 }
 
