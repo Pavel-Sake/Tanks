@@ -1,4 +1,3 @@
-// import debounce from "../debounce/debounce";
 
 class Tank {
   constructor(
@@ -135,7 +134,6 @@ class Tank {
 
         this.currentDirectionGun = 'ArrowRight';
         break;
-
     }
   }
 
@@ -154,6 +152,11 @@ class Tank {
   get addBulletInActiveBullets() {
 
     return this.debounce;
+  }
+
+  get coordinatesPositionTank() {
+
+    return this.positionTank;
   }
 }
 

@@ -1,38 +1,21 @@
-function checkIntersectedObjs(obj1, obj2) {
+function checkIntersectedObjs(first, second) {
   let crossX = false;
   let crossY = false;
 
-  let crossX2 = false;
-  let crossY2 = false;
-
-  if ((obj2.x1 < obj1.x1 && obj2.x2 > obj1.x1)
+  if ((first.x1 < second.x1 && first.x2 > second.x2)
     ||
-    (obj2.x1 < obj1.x2 && obj2.x2 > obj1.x2)) {
+    (first.x1 < second.x2 && first.x2 > second.x1)) {
     crossX = true;
   }
 
-  if ((obj2.y1 < obj1.y1 && obj2.y2 > obj1.y1)
+  if ((first.y1 < second.y2 && first.y2 > second.y1)
     ||
-    (obj2.y1 < obj1.y2 && obj2.y2 > obj1.y2)) {
+    (first.y1 < second.y1 && first.y2 > second.y2)) {
     crossY = true;
   }
 
-  //-----
 
-  if ((obj1.x1 < obj2.x1 && obj1.x2 > obj2.x1)
-    ||
-    (obj1.x1 < obj2.x2 && obj1.x2 > obj2.x2)) {
-    crossX2 = true;
-  }
-
-  if ((obj1.y1 < obj2.y1 && obj1.y2 > obj2.y1)
-    ||
-    (obj1.y1 < obj2.y2 && obj1.y2 > obj2.y2)) {
-    crossY2 = true;
-  }
-
-
-  if ((crossX && crossY) || (crossX2 && crossY2)) {
+  if (crossX && crossY) {
     return true;
   }
 
@@ -42,6 +25,7 @@ function checkIntersectedObjs(obj1, obj2) {
 function getIntersectedObjs(mainObj, arrOtherObjs) {
 
   const intersectedObjs = arrOtherObjs.filter((item) => {
+
     return checkIntersectedObjs(mainObj, item);
   });
 
