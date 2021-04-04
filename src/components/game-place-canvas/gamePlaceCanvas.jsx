@@ -52,8 +52,14 @@ const bordersCanvas = {
   borderEndY: null
 };
 
-const activeBullets = [];
+// const activeBullets = [];
 const bulletExplosions = [];
+const mainActiveBullets = [];
+const rivalActiveBullets = [];
+
+const posMainBullets = [];
+const posRivalBullets = [];
+
 
 //---------
 const borderCanvasUp = {
@@ -92,6 +98,12 @@ let positionRivalTank = {
   y1: 0,
   y2: 0 + sizeTank.height,
 };
+// let positionRivalTank = {
+//   x1: 400,
+//   x2: 400 + sizeTank.width,
+//   y1: 0,
+//   y2: 0 + sizeTank.height,
+// };
 
 let positionRivalGunX = positionRivalTank.x1 + shiftToCenterTank;
 let positionRivalGunY = positionRivalTank.y1 + shiftToTank;
@@ -100,13 +112,13 @@ let positionRivalGunY = positionRivalTank.y1 + shiftToTank;
 const GamePlaceCanvas = () => {
   const canvasRef = useRef(null);
 
-  const createShot = (ctx, bulletStep, positionGunAndDirectionShot, bulletSize, addBulletInActiveBullets) => {
+  const createShot = (ctx, bulletStep, positionGunAndDirectionShot, bulletSize, addBulletInActiveBullets, activeBullets) => {
     const bullet = new Bullet(ctx, bulletStep, positionGunAndDirectionShot, bulletSize);
 
     addBulletInActiveBullets(bullet, activeBullets, 1000);
   };
 
-  const removeBulletAndCreateExplosion = (index, ctx, positionBulletX, positionBulletY) => {
+  const removeBulletAndCreateExplosion = (index, ctx, positionBulletX, positionBulletY, activeBullets) => {
     activeBullets.splice(index, 1);
     bulletExplosions.push(new BulletExplosion(ctx, positionBulletX, positionBulletY));
   };
@@ -143,29 +155,17 @@ const GamePlaceCanvas = () => {
 
         const allObjsForRivalTank = [...borderCanvas, ...positionOfWall, tank.coordinatesPositionTank];
         const allObjsForMainTank = [...borderCanvas, ...positionOfWall, tankRival.coordinatesPositionTank];
+
         const allObjsForBullet = [...borderCanvas, ...positionOfWall, tankRival.coordinatesPositionTank, tank.coordinatesPositionTank];
 
 
         tank.move(keyPress, getIntersectedObjs, allObjsForMainTank);
 
-        tankRival.move(getIntersectedObjs, allObjsForRivalTank, createShot, BULLET_STEP);
+        tankRival.move(getIntersectedObjs, allObjsForRivalTank, createShot, BULLET_STEP, rivalActiveBullets);
 
 
-        activeBullets.forEach((bullet, index) => {
-            bullet.move();
-
-            const intersectedObjs = getIntersectedObjs(bullet.positionBullet, allObjsForBullet);
-
-            if (intersectedObjs.length !== 0) {
-              removeBulletAndCreateExplosion(index, ctx, bullet.positionBullet.x1, bullet.positionBullet.y1);
-            }
-          }
-        );
-
-
-        bulletExplosions.map((item) => {
-          item.explode(bulletExplosions);
-        });
+        allActionsBullets(mainActiveBullets, allObjsForBullet, posMainBullets, posRivalBullets);
+        allActionsBullets(rivalActiveBullets, allObjsForBullet, posRivalBullets, posMainBullets);
 
 
         requestAnimationFrame(go);
@@ -182,13 +182,12 @@ const GamePlaceCanvas = () => {
         document.removeEventListener('keyup', handleKeyUp);
       };
 
-
       function handleKeyDown(event) {
         event.preventDefault();
         keyPress = event.code;
 
         if (keyPress === 'Space') {
-          createShot(ctx, BULLET_STEP, tank.positionGunAndDirectionShot, bulletSize, tank.addBulletInActiveBullets);
+          createShot(ctx, BULLET_STEP, tank.positionGunAndDirectionShot, bulletSize, tank.addBulletInActiveBullets, mainActiveBullets);
         }
       }
 
@@ -196,7 +195,32 @@ const GamePlaceCanvas = () => {
         event.preventDefault();
         keyPress = null;
       }
+
+      function allActionsBullets(activeBullets, allObjsForBullet, posMainBullets, posRivalBullets) {
+
+        posMainBullets.length = 0;
+
+        const allObjs = [...allObjsForBullet, ...posRivalBullets];
+
+        activeBullets.forEach((bullet, index) => {
+          bullet.move();
+
+          posMainBullets.push(bullet.getPositionBullet);
+
+          const intersectedObjs = getIntersectedObjs(bullet.positionBullet, allObjs);
+
+          if (intersectedObjs.length !== 0) {
+            removeBulletAndCreateExplosion(index, ctx, bullet.positionBullet.x1, bullet.positionBullet.y1, activeBullets);
+          }
+
+        });
+
+        bulletExplosions.map((item) => {
+          item.explode(bulletExplosions);
+        });
+      }
     },
+
     []
   );
 

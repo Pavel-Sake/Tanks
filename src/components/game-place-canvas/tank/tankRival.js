@@ -15,7 +15,7 @@ class TankRival extends Tank {
     };
   }
 
-  move(getIntersectedObjs, arrOtherObjs, createShot, bulletStep) {
+  move(getIntersectedObjs, arrOtherObjs, createShot, bulletStep, rivalActiveBullets) {
 
     this.ctx.drawImage(
       this.image, this.positionSpriteOfTank.x, this.positionSpriteOfTank.y,
@@ -24,7 +24,7 @@ class TankRival extends Tank {
       this.sizeTank.width, this.sizeTank.height
     );
 
-    createShot(this.ctx, bulletStep, this.positionGunAndDirectionShot, this.bulletSize, this.addBulletInActiveBullets);
+    createShot(this.ctx, bulletStep, this.positionGunAndDirectionShot, this.bulletSize, this.addBulletInActiveBullets, rivalActiveBullets);
 
     const allNextPosition = this.createNextPosition();
 
