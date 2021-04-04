@@ -38,6 +38,12 @@ class Bullet {
         break;
     }
   }
+
+  get getPositionBullet() {
+    return this.positionBullet;
+  }
+
 }
+
 
 export default Bullet;
