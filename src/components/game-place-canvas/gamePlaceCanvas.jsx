@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, {useRef, useEffect} from 'react';
 
 import styles from './gamePlaceCanvas.pcss';
 import Tank from './tank/tank';
@@ -10,9 +10,9 @@ import debounce from './debounce/debounce';
 
 import getIntersectedObjs from './acrossingOfObject/acrossingOfObject';
 import BulletExplosion from "../bulletExplosion/bulletExplosion";
-import { findCoordinatesWall, positionOfWall } from "./wall/dataWalls";
+import {findCoordinatesWall, positionOfWall} from "./wall/dataWalls";
 
-import { dataTankInSprite, dataRivalTankInSprite } from "../../../dataTankInSprite/dataTankinSprite";
+import {dataTankInSprite, dataRivalTankInSprite} from "../../../dataTankInSprite/dataTankinSprite";
 
 
 const sizeTank = {
@@ -92,21 +92,27 @@ const borderCanvas = [borderCanvasUp, borderCanvasDown, borderCanvasLeft, border
 
 //-------------
 
-let positionRivalTank = {
-  x1: 50,
-  x2: 50 + sizeTank.width,
-  y1: 0,
-  y2: 0 + sizeTank.height,
-};
 // let positionRivalTank = {
-//   x1: 400,
-//   x2: 400 + sizeTank.width,
+//   x1: 50,
+//   x2: 50 + sizeTank.width,
 //   y1: 0,
 //   y2: 0 + sizeTank.height,
 // };
+//
+// let positionRivalGunX = positionRivalTank.x1 + shiftToCenterTank;
+// let positionRivalGunY = positionRivalTank.y1 + shiftToTank;
 
-let positionRivalGunX = positionRivalTank.x1 + shiftToCenterTank;
-let positionRivalGunY = positionRivalTank.y1 + shiftToTank;
+// let positionRivalTank2 = {
+//   x1: 500,
+//   x2: 500 + sizeTank.width,
+//   y1: 0,
+//   y2: 0 + sizeTank.height,
+// };
+//
+// let positionRivalGun2X = positionRivalTank2.x1 + shiftToCenterTank;
+// let positionRivalGun2Y = positionRivalTank2.y1 + shiftToTank;
+
+const activeRivalTanks = [];
 
 
 const GamePlaceCanvas = () => {
@@ -137,12 +143,36 @@ const GamePlaceCanvas = () => {
       );
 
 
-      const tankRival = new TankRival(
-        ctx, positionRivalTank, positionRivalGunX, positionRivalGunY,
-        sizeTank, bulletSize, bordersCanvas, TANK_STEP,
-        shiftToTank, shiftToBullet, shiftToCenterTank,
-        dataRivalTankInSprite, debounce()
-      );
+      function createRivalTank() {
+        let positionRivalTank = {
+          x1: 50,
+          x2: 50 + sizeTank.width,
+          y1: 0,
+          y2: 0 + sizeTank.height,
+        };
+
+        let positionRivalGunX = positionRivalTank.x1 + shiftToCenterTank;
+        let positionRivalGunY = positionRivalTank.y1 + shiftToTank;
+
+        const tankRival = new TankRival(
+          ctx, positionRivalTank, positionRivalGunX, positionRivalGunY,
+          sizeTank, bulletSize, bordersCanvas, TANK_STEP,
+          shiftToTank, shiftToBullet, shiftToCenterTank,
+          dataRivalTankInSprite, debounce()
+        );
+
+        activeRivalTanks.push(tankRival);
+
+      }
+
+
+      setInterval(() => {
+
+        if (activeRivalTanks.length < 4) {
+          createRivalTank();
+        }
+
+      }, 5000);
 
 
       const wall = new Wall(ctx);
@@ -154,18 +184,30 @@ const GamePlaceCanvas = () => {
         wall.buildingWall();
 
         const allObjsForRivalTank = [...borderCanvas, ...positionOfWall, tank.coordinatesPositionTank];
-        const allObjsForMainTank = [...borderCanvas, ...positionOfWall, tankRival.coordinatesPositionTank];
+        const allObjsForMainTank = [...borderCanvas, ...positionOfWall];
+        const allObjsForBullet = [...borderCanvas, ...positionOfWall, tank.coordinatesPositionTank];
 
-        const allObjsForBullet = [...borderCanvas, ...positionOfWall, tankRival.coordinatesPositionTank, tank.coordinatesPositionTank];
+        const currentTanksPos = [];
+
+        if (activeRivalTanks.length > 0) {
+
+          activeRivalTanks.forEach((rivalTank) => {
+            currentTanksPos.push(rivalTank.coordinatesPositionTank);
+
+            allObjsForMainTank.push(rivalTank.coordinatesPositionTank);
+            allObjsForBullet.push(rivalTank.coordinatesPositionTank);
+          });
+
+        }
 
 
         tank.move(keyPress, getIntersectedObjs, allObjsForMainTank);
 
-        tankRival.move(getIntersectedObjs, allObjsForRivalTank, createShot, BULLET_STEP, rivalActiveBullets);
+        rivalTanksMove(currentTanksPos, allObjsForRivalTank);
 
 
-        allActionsBullets(mainActiveBullets, allObjsForBullet, posMainBullets, posRivalBullets);
-        allActionsBullets(rivalActiveBullets, allObjsForBullet, posRivalBullets, posMainBullets);
+        allActionsBullets(mainActiveBullets, allObjsForBullet, posMainBullets, posRivalBullets); // for main bullets
+        allActionsBullets(rivalActiveBullets, allObjsForBullet, posRivalBullets, posMainBullets); // for rival bullets
 
 
         requestAnimationFrame(go);
@@ -197,7 +239,6 @@ const GamePlaceCanvas = () => {
       }
 
       function allActionsBullets(activeBullets, allObjsForBullet, posMainBullets, posRivalBullets) {
-
         posMainBullets.length = 0;
 
         const allObjs = [...allObjsForBullet, ...posRivalBullets];
@@ -211,12 +252,37 @@ const GamePlaceCanvas = () => {
 
           if (intersectedObjs.length !== 0) {
             removeBulletAndCreateExplosion(index, ctx, bullet.positionBullet.x1, bullet.positionBullet.y1, activeBullets);
+
+            // const intersectedObj = transformObjToString(intersectedObjs[0]);
+            // const coordinatesTank = transformObjToString(tankRival.coordinatesPositionTank);
+
+            // if (intersectedObj === coordinatesTank) {
+            //   console.log('yes');
+            // }
           }
 
         });
 
         bulletExplosions.map((item) => {
           item.explode(bulletExplosions);
+        });
+      }
+
+      function transformObjToString(obj) {
+
+        return `x1-${obj.x1}, x2-${obj.x2}, y1-${obj.y1}, y2-${obj.y2}`;
+      }
+
+      function rivalTanksMove(currentTanksPos,allObjsForRivalTank) {
+        activeRivalTanks.forEach((tank) => {
+
+          const newCurrentTanksPos =  currentTanksPos.filter((posTank) => {
+            return posTank !== tank.coordinatesPositionTank;
+          });
+          const newAllObjsForRivalTank = allObjsForRivalTank.concat(newCurrentTanksPos);
+
+
+          tank.move(getIntersectedObjs, newAllObjsForRivalTank, createShot, BULLET_STEP, rivalActiveBullets);
         });
       }
     },
